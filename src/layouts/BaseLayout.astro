@@ -1,0 +1,67 @@
+---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Smart Gallery Hub — AI Metadata & Auto-Submission for Stock Photographers',
+  description = 'Automate your microstock workflow. AI-powered metadata, one-click submission to Adobe Stock, Shutterstock, and Getty. Free to start, Pro for $49.',
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://smartgalleryhub.com/og-image.png" />
+    <meta property="og:url" content="https://smartgalleryhub.com" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body class="bg-white text-gray-900 font-sans antialiased">
+    <header class="border-b border-gray-100">
+      <nav class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="/" class="text-xl font-bold text-gray-900 hover:text-brand-700 transition-colors">
+          Smart Gallery Hub
+        </a>
+        <div class="flex items-center gap-6 text-sm font-medium text-gray-600">
+          <a href="/#features" class="hover:text-gray-900 transition-colors">Features</a>
+          <a href="/#pricing" class="hover:text-gray-900 transition-colors">Pricing</a>
+          <a
+            href="https://smartgalleryhub.lemonsqueezy.com/"
+            class="bg-brand-600 text-white px-4 py-2 rounded-lg hover:bg-brand-700 transition-colors"
+          >
+            Buy Pro
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="border-t border-gray-100 mt-20">
+      <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+        <p>&copy; {new Date().getFullYear()} Smart Gallery Hub. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="/privacy" class="hover:text-gray-700 transition-colors">Privacy Policy</a>
+          <a href="/terms" class="hover:text-gray-700 transition-colors">Terms of Service</a>
+          <a href="mailto:support@smartgalleryhub.com" class="hover:text-gray-700 transition-colors">Support</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
