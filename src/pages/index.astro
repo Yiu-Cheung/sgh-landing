@@ -18,7 +18,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         href="https://smartgalleryhub.lemonsqueezy.com/"
         class="bg-brand-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-brand-700 transition-colors shadow-lg shadow-brand-600/25"
       >
-        Buy Pro — $49
+        Try Pro Free for 30 Days
       </a>
       <a
         href="#features"
@@ -28,9 +28,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </a>
     </div>
     <div class="mt-16 rounded-xl overflow-hidden shadow-2xl border border-gray-200 max-w-4xl mx-auto">
-      <div class="bg-gray-100 aspect-video flex items-center justify-center text-gray-400 text-lg">
-        <p>App screenshot — drop hero-screenshot.png into public/</p>
-      </div>
+      <img src="/hero-screenshot.png" alt="Smart Gallery Hub workspace showing image library with metadata panel and content type folders" class="w-full" loading="eager" />
     </div>
   </section>
 
@@ -79,6 +77,37 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <p class="mt-2 text-sm text-gray-600">Use Ollama for free local inference, or connect any OpenAI-compatible API. You choose the model, the cost, and the quality.</p>
         </div>
       </div>
+
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200">
+          <img src="/features/content-types.png" alt="Content type folder organization — Default, Commercial, Editorial, AI Generated, Illustration" class="w-full" loading="lazy" />
+          <div class="p-4 bg-white">
+            <h4 class="font-semibold text-gray-900">Content-Type Folders</h4>
+            <p class="text-sm text-gray-600 mt-1">Organize by type — each gets the right metadata fields and submission workflow.</p>
+          </div>
+        </div>
+        <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200">
+          <img src="/features/ai-metadata.png" alt="AI-generated metadata panel with title, description, and keywords" class="w-full" loading="lazy" />
+          <div class="p-4 bg-white">
+            <h4 class="font-semibold text-gray-900">AI-Powered Descriptions</h4>
+            <p class="text-sm text-gray-600 mt-1">Local AI generates titles, descriptions, and keywords — edit or accept in one click.</p>
+          </div>
+        </div>
+        <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200">
+          <img src="/features/approval-status.png" alt="Approval badge status showing accepted and rejected submissions across agencies" class="w-full" loading="lazy" />
+          <div class="p-4 bg-white">
+            <h4 class="font-semibold text-gray-900">Approval Status Badges</h4>
+            <p class="text-sm text-gray-600 mt-1">See approval, rejection, and review status per agency at a glance on every thumbnail.</p>
+          </div>
+        </div>
+        <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200">
+          <img src="/features/mobile-ui.png" alt="Smart Gallery Hub mobile interface showing content type folders" class="w-full" loading="lazy" />
+          <div class="p-4 bg-white">
+            <h4 class="font-semibold text-gray-900">Mobile Ready</h4>
+            <p class="text-sm text-gray-600 mt-1">Manage your library on the go — full mobile UI with swipe preview and touch controls.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -90,7 +119,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         Start for free. Go Pro when you're ready to automate.
       </p>
 
-      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Free -->
         <div class="rounded-xl border border-gray-200 p-8">
           <h3 class="text-lg font-semibold text-gray-900">Free</h3>
@@ -105,14 +134,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </ul>
         </div>
 
-        <!-- Pro -->
+        <!-- Pro Annual -->
         <div class="rounded-xl border-2 border-brand-600 p-8 relative">
           <div class="absolute -top-3 left-6 bg-brand-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
             Most popular
           </div>
-          <h3 class="text-lg font-semibold text-gray-900">Pro</h3>
-          <p class="mt-2 text-4xl font-bold text-gray-900">$49</p>
-          <p class="mt-1 text-sm text-gray-500">One-time payment &middot; 1 year of updates</p>
+          <h3 class="text-lg font-semibold text-gray-900">Pro Annual</h3>
+          <p class="mt-2 text-4xl font-bold text-gray-900">$29.99</p>
+          <p class="mt-1 text-sm text-gray-500">per year</p>
           <ul class="mt-8 space-y-3 text-sm text-gray-600">
             <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Everything in Free</li>
             <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Automated submission to Adobe, Shutterstock, Getty</li>
@@ -128,6 +157,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             class="mt-8 block text-center bg-brand-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-700 transition-colors"
           >
             Start Free Trial
+          </a>
+        </div>
+
+        <!-- Pro Lifetime -->
+        <div class="rounded-xl border border-gray-200 p-8 relative">
+          <div class="absolute -top-3 left-6 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full">
+            Best value
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900">Pro Lifetime</h3>
+          <p class="mt-2 text-4xl font-bold text-gray-900">$129.99</p>
+          <p class="mt-1 text-sm text-gray-500">One-time payment &middot; forever</p>
+          <ul class="mt-8 space-y-3 text-sm text-gray-600">
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Everything in Pro</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Lifetime updates, never pay again</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Activate on up to 3 devices</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> 30-day free trial, no credit card</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> 14-day refund guarantee</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Pay once, save after ~4.3 years</li>
+          </ul>
+          {/* TODO(lemonsqueezy-checkout-url) — replace with actual product checkout URL */}
+          <a
+            href="https://smartgalleryhub.lemonsqueezy.com/"
+            class="mt-8 block text-center bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-900 transition-colors"
+          >
+            Buy Lifetime
           </a>
         </div>
       </div>
