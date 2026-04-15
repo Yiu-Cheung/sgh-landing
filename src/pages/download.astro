@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Download Smart Gallery Hub" description="Download Smart Gallery Hub for Windows, Mac Intel, and Mac Apple Silicon.">
+  <!-- Hero -->
+  <section class="max-w-4xl mx-auto px-4 pt-20 pb-8 text-center">
+    <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
+      Download Smart Gallery Hub
+    </h1>
+    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+      Runs locally on your machine. 30-day free trial, no credit card required.
+    </p>
+  </section>
+
+  <!-- Download cards -->
+  <section class="max-w-4xl mx-auto px-4 pb-12">
+    <div class="rounded-xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-900 mb-8">
+      <strong>Heads up:</strong> Installers are published with each release. Links below will activate once the first public build is available.
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <!-- Windows -->
+      <div class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col">
+        <div class="text-4xl mb-3" aria-hidden="true">&#x1FA9F;</div>
+        <h2 class="font-semibold text-lg text-gray-900">Windows</h2>
+        <p class="mt-1 text-sm text-gray-600">64-bit · Windows 10 or later</p>
+        <div class="mt-auto pt-6">
+          <span class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg bg-gray-100 text-gray-400 text-sm font-medium cursor-not-allowed">
+            Available soon
+          </span>
+        </div>
+      </div>
+
+      <!-- Mac Intel -->
+      <div class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col">
+        <div class="text-4xl mb-3" aria-hidden="true">&#x1F5A5;&#xFE0F;</div>
+        <h2 class="font-semibold text-lg text-gray-900">Mac Intel</h2>
+        <p class="mt-1 text-sm text-gray-600">x64 · macOS 12 or later</p>
+        <div class="mt-auto pt-6">
+          <span class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg bg-gray-100 text-gray-400 text-sm font-medium cursor-not-allowed">
+            Available soon
+          </span>
+        </div>
+      </div>
+
+      <!-- Mac Apple Silicon -->
+      <div class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col">
+        <div class="text-4xl mb-3" aria-hidden="true">&#x1F34F;</div>
+        <h2 class="font-semibold text-lg text-gray-900">Mac Apple Silicon</h2>
+        <p class="mt-1 text-sm text-gray-600">arm64 · M1/M2/M3, macOS 12 or later</p>
+        <div class="mt-auto pt-6">
+          <span class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg bg-gray-100 text-gray-400 text-sm font-medium cursor-not-allowed">
+            Available soon
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- System requirements -->
+  <section class="max-w-4xl mx-auto px-4 pb-12">
+    <div class="rounded-xl bg-gray-50 border border-gray-200 p-6">
+      <h2 class="font-semibold text-lg text-gray-900">System requirements</h2>
+      <ul class="mt-4 space-y-2 text-sm text-gray-600">
+        <li><strong class="text-gray-900">RAM:</strong> 8&nbsp;GB minimum, 16&nbsp;GB recommended for large libraries</li>
+        <li><strong class="text-gray-900">Disk:</strong> 2&nbsp;GB for the app, plus space for your photo library</li>
+        <li><strong class="text-gray-900">AI processing:</strong> Runs locally via Ollama or a compatible OpenAI-format endpoint. GPU optional but recommended.</li>
+        <li><strong class="text-gray-900">Internet:</strong> Required only for license activation and submission to stock agencies.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Support -->
+  <section class="max-w-4xl mx-auto px-4 pb-20 text-center">
+    <p class="text-sm text-gray-500">
+      Having trouble installing? Email
+      <a href="mailto:support@smartgalleryhub.com" class="text-brand-600 hover:text-brand-700 underline">support@smartgalleryhub.com</a>
+    </p>
+  </section>
+</BaseLayout>
