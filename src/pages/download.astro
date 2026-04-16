@@ -1,60 +1,65 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const VERSION = '1.0.0';
+const RELEASE_URL = `https://github.com/Yiu-Cheung/Microstock-AiTools-V3/releases/tag/v${VERSION}`;
+const WINDOWS_URL = `https://github.com/Yiu-Cheung/Microstock-AiTools-V3/releases/download/v${VERSION}/SGH.-.Smart.Gallery.Hub.Setup.${VERSION}.exe`;
+const MAC_ARM64_URL = `https://github.com/Yiu-Cheung/Microstock-AiTools-V3/releases/download/v${VERSION}/SGH.-.Smart.Gallery.Hub-${VERSION}-arm64.dmg`;
 ---
 
-<BaseLayout title="Download Smart Gallery Hub" description="Download Smart Gallery Hub for Windows, Mac Intel, and Mac Apple Silicon.">
+<BaseLayout title="Download Smart Gallery Hub" description="Download Smart Gallery Hub for Windows and Apple Silicon Macs.">
   <!-- Hero -->
   <section class="max-w-4xl mx-auto px-4 pt-20 pb-8 text-center">
     <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
       Download Smart Gallery Hub
     </h1>
     <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-      Runs locally on your machine. 30-day free trial, no credit card required.
+      Version <span class="font-mono">{VERSION}</span> · runs locally on your machine · 30-day free trial, no credit card required.
     </p>
   </section>
 
   <!-- Download cards -->
   <section class="max-w-4xl mx-auto px-4 pb-12">
-    <div class="rounded-xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-900 mb-8">
-      <strong>Heads up:</strong> Installers are published with each release. Links below will activate once the first public build is available.
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <!-- Windows -->
-      <div class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col">
+      <a href={WINDOWS_URL} class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col hover:border-brand-300 hover:shadow-md transition-all">
         <div class="text-4xl mb-3" aria-hidden="true">&#x1FA9F;</div>
         <h2 class="font-semibold text-lg text-gray-900">Windows</h2>
         <p class="mt-1 text-sm text-gray-600">64-bit · Windows 10 or later</p>
+        <p class="mt-1 text-xs text-gray-500">~149 MB · NSIS installer</p>
         <div class="mt-auto pt-6">
-          <span class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg bg-gray-100 text-gray-400 text-sm font-medium cursor-not-allowed">
-            Available soon
+          <span class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition-colors">
+            Download for Windows
           </span>
         </div>
-      </div>
-
-      <!-- Mac Intel -->
-      <div class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col">
-        <div class="text-4xl mb-3" aria-hidden="true">&#x1F5A5;&#xFE0F;</div>
-        <h2 class="font-semibold text-lg text-gray-900">Mac Intel</h2>
-        <p class="mt-1 text-sm text-gray-600">x64 · macOS 12 or later</p>
-        <div class="mt-auto pt-6">
-          <span class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg bg-gray-100 text-gray-400 text-sm font-medium cursor-not-allowed">
-            Available soon
-          </span>
-        </div>
-      </div>
+      </a>
 
       <!-- Mac Apple Silicon -->
-      <div class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col">
+      <a href={MAC_ARM64_URL} class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col hover:border-brand-300 hover:shadow-md transition-all">
         <div class="text-4xl mb-3" aria-hidden="true">&#x1F34F;</div>
-        <h2 class="font-semibold text-lg text-gray-900">Mac Apple Silicon</h2>
-        <p class="mt-1 text-sm text-gray-600">arm64 · M1/M2/M3, macOS 12 or later</p>
+        <h2 class="font-semibold text-lg text-gray-900">Mac (Apple Silicon)</h2>
+        <p class="mt-1 text-sm text-gray-600">M1/M2/M3/M4 · macOS 12 or later</p>
+        <p class="mt-1 text-xs text-gray-500">~160 MB · DMG</p>
         <div class="mt-auto pt-6">
-          <span class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg bg-gray-100 text-gray-400 text-sm font-medium cursor-not-allowed">
-            Available soon
+          <span class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition-colors">
+            Download for Mac
           </span>
         </div>
-      </div>
+      </a>
+    </div>
+
+    <p class="text-center mt-6 text-sm text-gray-500">
+      Mac Intel users — support coming in v1.1.
+      <br />
+      All releases on
+      <a href={RELEASE_URL} class="text-brand-600 hover:text-brand-700 underline">GitHub</a>
+    </p>
+  </section>
+
+  <!-- Mac unsigned warning -->
+  <section class="max-w-4xl mx-auto px-4 pb-12">
+    <div class="rounded-xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-900">
+      <strong>First time on Mac?</strong> macOS will say <em>"&ldquo;SGH&rdquo; can't be opened because Apple cannot check it for malicious software"</em>. Right-click the app in Finder → <strong>Open</strong> → confirm. You only need to do this once. (We're working on Apple Developer signing.)
     </div>
   </section>
 
