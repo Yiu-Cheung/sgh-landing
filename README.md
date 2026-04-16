@@ -1,43 +1,55 @@
-# Astro Starter Kit: Minimal
+# SGH Landing Page
 
-```sh
-npm create astro@latest -- --template minimal
+Marketing site for [Smart Gallery Hub](https://smartgalleryhub.com) — AI metadata automation for photographers.
+
+Built with [Astro](https://astro.build) + Tailwind CSS + MDX. Deployed to Cloudflare Pages.
+
+## Pages
+
+- `/` — Homepage (hero, features, pricing, CTAs)
+- `/privacy` — Privacy policy (MDX)
+- `/terms` — Terms of service (MDX)
+- `/download` — Desktop app download links
+
+Legal pages live in `src/pages/*.mdx` and use `FrontLayout`. All other pages use `BaseLayout`.
+
+## Structure
+
+```
+public/          static assets (favicons, og-image, screenshots)
+src/
+  layouts/       BaseLayout + FrontLayout
+  components/    reusable Astro partials
+  pages/         routes (.astro / .mdx)
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-## 🚀 Project Structure
+| Command | Action |
+| :--- | :--- |
+| `npm install` | Install dependencies |
+| `npm run dev` | Dev server at `localhost:4321` |
+| `npm run build` | Build to `./dist/` |
+| `npm run preview` | Preview built site |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Deploy
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+Pushes to `main` auto-deploy via Cloudflare Pages. Production URL: **https://smartgalleryhub.com**.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Assets
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- `public/main.png` — hero screenshot (1.4 MB, 2083×1151)
+- `public/og-image.png` — social card image (1200×630), regenerate via:
+  ```sh
+  ffmpeg -i public/main.png \
+    -vf "scale=w=1200:h=630:force_original_aspect_ratio=increase,crop=1200:630" \
+    -y public/og-image.png
+  ```
+- `public/favicon.{ico,svg}` — browser tab icons
+- `public/features/` — feature-tile screenshots
+- `public/logo.png` — brand logo
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Related repos
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Main app: `Microstock-AiTools-V3` (Electron + React + Express)
+- License worker: `sgh-license-worker` (Cloudflare Worker + Polar integration)
