@@ -4,7 +4,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const VERSION = '0.1.0';
 const DL_BASE = 'https://dl.smartgalleryhub.com';
 const WINDOWS_URL = `${DL_BASE}/latest/SGH-Setup.exe`;
-const MAC_UNIVERSAL_URL = `${DL_BASE}/latest/SGH-universal.dmg`;
+const MAC_ARM64_URL = `${DL_BASE}/latest/SGH-arm64.dmg`;
+const MAC_X64_URL = `${DL_BASE}/latest/SGH-x64.dmg`;
 ---
 
 <BaseLayout title="Download Smart Gallery Hub" description="Download Smart Gallery Hub for Windows, Mac Intel, and Apple Silicon.">
@@ -20,7 +21,7 @@ const MAC_UNIVERSAL_URL = `${DL_BASE}/latest/SGH-universal.dmg`;
 
   <!-- Download cards -->
   <section class="max-w-4xl mx-auto px-4 pb-12">
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <!-- Windows -->
       <a href={WINDOWS_URL} class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col hover:border-brand-300 hover:shadow-md transition-all">
         <div class="text-4xl mb-3" aria-hidden="true">&#x1FA9F;</div>
@@ -34,15 +35,28 @@ const MAC_UNIVERSAL_URL = `${DL_BASE}/latest/SGH-universal.dmg`;
         </div>
       </a>
 
-      <!-- Mac (Universal) -->
-      <a href={MAC_UNIVERSAL_URL} class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col hover:border-brand-300 hover:shadow-md transition-all">
+      <!-- Mac Apple Silicon -->
+      <a href={MAC_ARM64_URL} class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col hover:border-brand-300 hover:shadow-md transition-all">
         <div class="text-4xl mb-3" aria-hidden="true">&#x1F34F;</div>
-        <h2 class="font-semibold text-lg text-gray-900">Mac (Universal)</h2>
-        <p class="mt-1 text-sm text-gray-600">Intel & Apple Silicon · macOS 12 or later</p>
+        <h2 class="font-semibold text-lg text-gray-900">Mac (Apple Silicon)</h2>
+        <p class="mt-1 text-sm text-gray-600">M1/M2/M3/M4 · macOS 12 or later</p>
         <p class="mt-1 text-xs text-gray-500">~160 MB · DMG</p>
         <div class="mt-auto pt-6">
           <span class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition-colors">
             Download for Mac
+          </span>
+        </div>
+      </a>
+
+      <!-- Mac Intel -->
+      <a href={MAC_X64_URL} class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col hover:border-brand-300 hover:shadow-md transition-all">
+        <div class="text-4xl mb-3" aria-hidden="true">&#x1F5A5;&#xFE0F;</div>
+        <h2 class="font-semibold text-lg text-gray-900">Mac (Intel)</h2>
+        <p class="mt-1 text-sm text-gray-600">x64 · macOS 12 or later</p>
+        <p class="mt-1 text-xs text-gray-500">~160 MB · DMG</p>
+        <div class="mt-auto pt-6">
+          <span class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition-colors">
+            Download for Mac (Intel)
           </span>
         </div>
       </a>
