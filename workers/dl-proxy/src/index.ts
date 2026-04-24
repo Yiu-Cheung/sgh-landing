@@ -1,6 +1,6 @@
 export interface Env {
   BUCKET: R2Bucket;
-  DOWNLOADS: AnalyticsEngineDataset;
+  DL_COUNTERS: KVNamespace;
 }
 
 function platformFromKey(key: string): string {
@@ -10,6 +10,12 @@ function platformFromKey(key: string): string {
   if (k.includes("x64") || k.includes("intel")) return "mac-intel";
   if (k.endsWith(".dmg")) return "mac";
   return "other";
+}
+
+async function incr(kv: KVNamespace, key: string): Promise<void> {
+  const current = await kv.get(key);
+  const next = (parseInt(current ?? "0", 10) || 0) + 1;
+  await kv.put(key, String(next));
 }
 
 export default {
@@ -28,7 +34,7 @@ export default {
     const obj = request.method === "HEAD"
       ? await env.BUCKET.head(key)
       : await env.BUCKET.get(key, {
-          range: request.headers.get("range") ?? undefined,
+          range: request.headers,
           onlyIf: request.headers,
         });
 
@@ -49,21 +55,8 @@ export default {
       ((obj as R2ObjectBody).range as R2Range | undefined)?.offset === 0;
 
     if (request.method === "GET" && isFirstByte) {
-      ctx.waitUntil(
-        (async () => {
-          env.DOWNLOADS.writeDataPoint({
-            blobs: [
-              key,
-              platformFromKey(key),
-              request.headers.get("user-agent") ?? "",
-              (request as any).cf?.country ?? "",
-              (request as any).cf?.city ?? "",
-            ],
-            doubles: [1],
-            indexes: [platformFromKey(key)],
-          });
-        })(),
-      );
+      const platform = platformFromKey(key);
+      ctx.waitUntil(incr(env.DL_COUNTERS, `platform:${platform}`));
     }
 
     if (request.method === "HEAD") {

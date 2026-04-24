@@ -18,10 +18,10 @@
       "bucket_name": "sgh-downloads"
     }
   ],
-  "analytics_engine_datasets": [
+  "kv_namespaces": [
     {
-      "binding": "DOWNLOADS",
-      "dataset": "sgh_downloads"
+      "binding": "DL_COUNTERS",
+      "id": "769e126f4aa1481f88beaafb8a1033e2"
     }
   ]
 }
