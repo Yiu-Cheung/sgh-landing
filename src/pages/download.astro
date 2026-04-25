@@ -1,27 +1,72 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import fallback from '../data/release-fallback.json';
+import { validateUpdateJson, type UpdateJson } from '../scripts/release-info';
 
-const VERSION = '0.1.0';
+// Build-time fetch of update.json. On any failure (network, 404, malformed,
+// schemaVersion mismatch), fall back to the committed release-fallback.json
+// so the page always has SOMETHING valid to render at first paint.
+//
+// The resolved `updateInfo` is the SINGLE source of truth for both:
+//   1. Initial HTML rendered by Astro (the JSX expressions below).
+//   2. Embedded `window.__SGH_UPDATE__` baseline (the inline script at end).
+// This guarantees those two never disagree about first-paint state.
+//
+// See openspec/specs/landing-site/spec.md (V3 repo) — scenario "Fallback content
+// is current as of last site build" + sister scenarios for failure modes.
+
+let updateInfo: UpdateJson;
+try {
+  const res = await fetch('https://dl.smartgalleryhub.com/latest/update.json', {
+    signal: AbortSignal.timeout(5000),
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const parsed = await res.json();
+  const validated = validateUpdateJson(parsed);
+  if (!validated) throw new Error('schema validation failed');
+  updateInfo = validated;
+} catch (err) {
+  // eslint-disable-next-line no-console
+  console.warn('[sgh build-time] update.json fetch failed; using release-fallback.json:', err);
+  // Fallback file is committed and validated by tests — safe to cast.
+  updateInfo = fallback as UpdateJson;
+}
+
 const DL_BASE = 'https://dl.smartgalleryhub.com';
 const WINDOWS_URL = `${DL_BASE}/latest/SGH-Setup.exe`;
-const MAC_ARM64_URL = `${DL_BASE}/latest/SGH-arm64.dmg`;
-const MAC_X64_URL = `${DL_BASE}/latest/SGH-x64.dmg`;
+const MAC_URL = `${DL_BASE}/latest/SGH-universal.dmg`;
 ---
 
-<BaseLayout title="Download Smart Gallery Hub" description="Download Smart Gallery Hub for Windows, Mac Intel, and Apple Silicon.">
+<BaseLayout title="Download Smart Gallery Hub" description="Download Smart Gallery Hub for Windows and Mac (Intel + Apple Silicon).">
   <!-- Hero -->
   <section class="max-w-4xl mx-auto px-4 pt-20 pb-8 text-center">
     <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
       Download Smart Gallery Hub
     </h1>
     <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-      Version <span class="font-mono">{VERSION}</span> · runs locally on your machine · 30-day free trial, no credit card required.
+      Version <span class="font-mono" data-sgh-version>v{updateInfo.version}</span> · runs locally on your machine · 30-day free trial, no credit card required.
     </p>
   </section>
 
-  <!-- Download cards -->
+  <!-- What's new (highlights from update.json, fallback to maintenance-release copy) -->
+  <section class="max-w-4xl mx-auto px-4 pb-8">
+    <div class="rounded-xl bg-gray-50 border border-gray-200 p-6">
+      <h2 class="font-semibold text-lg text-gray-900">What's new</h2>
+      <ul data-sgh-highlights class="mt-3 list-disc pl-5 space-y-1 text-sm text-gray-700">
+        {updateInfo.highlights.length === 0 ? (
+          <span>
+            No new features in this release — bug fixes and stability improvements. See <a href={updateInfo.fullChangelog} target="_blank" rel="noopener noreferrer" class="underline text-brand-600 hover:text-brand-700">full changelog</a> for details.
+          </span>
+        ) : (
+          updateInfo.highlights.map((line) => <li>{line}</li>)
+        )}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Download cards: Windows + Mac Universal (consolidated from previous 3-card layout) -->
   <section class="max-w-4xl mx-auto px-4 pb-12">
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <!-- Windows -->
       <a href={WINDOWS_URL} class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col hover:border-brand-300 hover:shadow-md transition-all">
         <div class="text-4xl mb-3" aria-hidden="true">&#x1FA9F;</div>
@@ -35,28 +80,15 @@ const MAC_X64_URL = `${DL_BASE}/latest/SGH-x64.dmg`;
         </div>
       </a>
 
-      <!-- Mac Apple Silicon -->
-      <a href={MAC_ARM64_URL} class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col hover:border-brand-300 hover:shadow-md transition-all">
+      <!-- Mac Universal (Intel + Apple Silicon) -->
+      <a href={MAC_URL} class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col hover:border-brand-300 hover:shadow-md transition-all">
         <div class="text-4xl mb-3" aria-hidden="true">&#x1F34F;</div>
-        <h2 class="font-semibold text-lg text-gray-900">Mac (Apple Silicon)</h2>
-        <p class="mt-1 text-sm text-gray-600">M1/M2/M3/M4 · macOS 12 or later</p>
-        <p class="mt-1 text-xs text-gray-500">~160 MB · DMG</p>
+        <h2 class="font-semibold text-lg text-gray-900">Mac · Universal binary</h2>
+        <p class="mt-1 text-sm text-gray-600">Intel and Apple Silicon · macOS 12 or later</p>
+        <p class="mt-1 text-xs text-gray-500">~280 MB · DMG</p>
         <div class="mt-auto pt-6">
           <span class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition-colors">
             Download for Mac
-          </span>
-        </div>
-      </a>
-
-      <!-- Mac Intel -->
-      <a href={MAC_X64_URL} class="rounded-xl border border-gray-200 bg-white p-6 flex flex-col hover:border-brand-300 hover:shadow-md transition-all">
-        <div class="text-4xl mb-3" aria-hidden="true">&#x1F5A5;&#xFE0F;</div>
-        <h2 class="font-semibold text-lg text-gray-900">Mac (Intel)</h2>
-        <p class="mt-1 text-sm text-gray-600">x64 · macOS 12 or later</p>
-        <p class="mt-1 text-xs text-gray-500">~160 MB · DMG</p>
-        <div class="mt-auto pt-6">
-          <span class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition-colors">
-            Download for Mac (Intel)
           </span>
         </div>
       </a>
@@ -66,7 +98,7 @@ const MAC_X64_URL = `${DL_BASE}/latest/SGH-x64.dmg`;
   <!-- Mac unsigned warning -->
   <section class="max-w-4xl mx-auto px-4 pb-12">
     <div class="rounded-xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-900">
-      <strong>First time on Mac?</strong> macOS will say <em>"&ldquo;SGH&rdquo; can't be opened because Apple cannot check it for malicious software"</em>. Right-click the app in Finder → <strong>Open</strong> → confirm. You only need to do this once. (We're working on Apple Developer signing.)
+      <strong>First time on Mac?</strong> macOS will say <em>"&ldquo;SGH&rdquo; can't be opened because Apple cannot check it for malicious software"</em>. Right-click the app in Finder → <strong>Open</strong> → confirm. You only need to do this once. <span class="opacity-75">(Apple Developer signing is on the roadmap once revenue covers the cost.)</span>
     </div>
   </section>
 
@@ -90,4 +122,46 @@ const MAC_X64_URL = `${DL_BASE}/latest/SGH-x64.dmg`;
       <a href="mailto:support@smartgalleryhub.com" class="text-brand-600 hover:text-brand-700 underline">support@smartgalleryhub.com</a>
     </p>
   </section>
+
+  <!-- Build-time embed: baseline values for runtime fetch handler to compare against -->
+  <script is:inline define:vars={{ embeddedUpdate: updateInfo }}>
+    window.__SGH_UPDATE__ = embeddedUpdate;
+  </script>
+
+  <!-- Runtime fetch: try live update.json, validate, apply on success -->
+  <script>
+    import { validateUpdateJson, applyUpdate } from '../scripts/release-info';
+
+    declare global {
+      interface Window {
+        __SGH_UPDATE__: unknown;
+      }
+    }
+
+    void (async () => {
+      try {
+        const res = await fetch('https://dl.smartgalleryhub.com/latest/update.json', {
+          cache: 'no-store',
+        });
+        if (!res.ok) {
+          // eslint-disable-next-line no-console
+          console.warn('[sgh] update.json fetch returned non-200; using embedded fallback', res.status);
+          return;
+        }
+        const parsed = await res.json();
+        const validated = validateUpdateJson(parsed);
+        if (!validated) {
+          // eslint-disable-next-line no-console
+          console.warn('[sgh] update.json schema mismatch — using embedded fallback');
+          return;
+        }
+        applyUpdate(validated);
+        // eslint-disable-next-line no-console
+        console.info(`[sgh] update.json fetch ok, version=${validated.version}`);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn('[sgh] update.json fetch failed — using embedded fallback', err);
+      }
+    })();
+  </script>
 </BaseLayout>
