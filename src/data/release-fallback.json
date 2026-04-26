@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "version": "1.0.0",
-  "releasedAt": "2026-04-16T00:25:22Z",
+  "version": "1.0.1",
+  "releasedAt": "2026-04-26T17:02:35+08:00",
   "platforms": {
-    "win": "https://dl.smartgalleryhub.com/v1.0.0/SGH-Setup-1.0.0.exe",
-    "mac": "https://dl.smartgalleryhub.com/v1.0.0/SGH-1.0.0-universal.dmg"
+    "win": "https://dl.smartgalleryhub.com/v1.0.1/SGH-Setup-1.0.1.exe",
+    "mac": "https://dl.smartgalleryhub.com/v1.0.1/SGH-1.0.1-universal.dmg"
   },
   "highlights": [],
-  "fullChangelog": "https://github.com/Yiu-Cheung/Microstock-AiTools-V3/releases/tag/v1.0.0"
+  "fullChangelog": "https://github.com/Yiu-Cheung/Microstock-AiTools-V3/releases/tag/v1.0.1"
 }
