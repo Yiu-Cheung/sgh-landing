@@ -4,14 +4,14 @@
   "releasedAt": "2026-04-26T17:02:35+08:00",
   "platforms": {
     "win": "https://dl.smartgalleryhub.com/v1.0.1/SGH-Setup-1.0.1.exe",
-    "mac": "https://dl.smartgalleryhub.com/v1.0.1/SGH-1.0.1-universal.dmg"
+    "mac": "https://dl.smartgalleryhub.com/v1.0.1/SGH-1.0.1-arm64.dmg"
   },
   "highlights": [
     "Automated metadata generation via Ollama or OpenAI vision models",
     "One-click submission to Adobe Stock, Shutterstock, Getty Images",
     "Unified earnings dashboard with 12-month trend chart",
     "Local-first architecture — no cloud, no telemetry",
-    "Windows 10+ and macOS 12+ (Universal binary)"
+    "Windows 10+ and macOS 12+ (separate Apple Silicon and Intel DMGs)"
   ],
   "fullChangelog": "https://github.com/Yiu-Cheung/Microstock-AiTools-V3/releases/tag/v1.0.1"
 }
