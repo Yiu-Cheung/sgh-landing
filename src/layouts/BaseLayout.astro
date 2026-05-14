@@ -10,9 +10,50 @@ interface Props {
 }
 
 const {
-  title = 'Smart Gallery Hub — AI Metadata for Photographers',
-  description = 'AI-powered metadata generation for your entire photo library. Local-first, private, and flexible. Organize, tag, and export thousands of photos in minutes.',
+  title = 'Smart Gallery Hub — AI Metadata + Auto-Submit to Adobe Stock, Shutterstock & Getty | Microstock Workflow Software',
+  description = 'Generate AI keywords, titles, and descriptions for thousands of stock photos and videos. Auto-submit to Adobe Stock, Shutterstock, and Getty Images / iStock — all from your desktop. AI runs locally on your machine. Free forever tier. Windows + Mac.',
 } = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+const softwareApplicationLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Smart Gallery Hub',
+  description:
+    'Desktop application that generates AI metadata and auto-submits stock photos and videos to Adobe Stock, Shutterstock, and Getty Images / iStock.',
+  applicationCategory: 'PhotographyApplication',
+  applicationSubCategory: 'Stock photography workflow / microstock contributor tool',
+  operatingSystem: 'Windows, macOS',
+  url: 'https://smartgalleryhub.com',
+  image: 'https://smartgalleryhub.com/og-image.png',
+  offers: [
+    {
+      '@type': 'Offer',
+      name: 'Free',
+      price: '0',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      category: 'Free tier — AI metadata generation, content-type organization, write to file (IPTC/XMP), 1 device',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Pro Annual',
+      price: '59.99',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      category: 'Pro annual subscription — adds automated submission, approval tracking, earnings dashboard, 5 devices',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Pro Lifetime',
+      price: '199.99',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      category: 'Pro lifetime — one-time payment, all Pro features forever, 5 devices',
+    },
+  ],
+};
 ---
 
 <html lang="en">
@@ -21,6 +62,7 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta property="og:title" content={title} />
@@ -29,6 +71,8 @@ const {
     <meta property="og:url" content="https://smartgalleryhub.com" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(softwareApplicationLd)} />
+    <slot name="head" />
   </head>
   <body class="bg-white text-gray-900 font-sans antialiased">
     <header class="border-b border-gray-100">
@@ -41,11 +85,12 @@ const {
           <a href="/#features" class="hover:text-gray-900 transition-colors">Features</a>
           <a href="/#pricing" class="hover:text-gray-900 transition-colors">Pricing</a>
           <a href="/download" class="hover:text-gray-900 transition-colors">Download</a>
+          <a href="mailto:support@smartgalleryhub.com" class="hover:text-gray-900 transition-colors">Support</a>
           <a
             href="https://buy.polar.sh/polar_cl_F7zNynx5wcSfUm96w3eklh2cXR10EYJPdIGMB0rJnYg"
             class="bg-brand-600 text-white px-4 py-2 rounded-lg hover:bg-brand-700 transition-colors"
           >
-            Buy Pro
+            Subscribe Now
           </a>
         </div>
       </nav>
