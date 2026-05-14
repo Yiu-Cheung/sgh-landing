@@ -1,153 +1,814 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+// TODO(polar-checkout-url): Polar product checkout URLs. Update if the Polar variant IDs change.
+const POLAR_ANNUAL = 'https://buy.polar.sh/polar_cl_F7zNynx5wcSfUm96w3eklh2cXR10EYJPdIGMB0rJnYg';
+const POLAR_LIFETIME = 'https://buy.polar.sh/polar_cl_sP7CCTfGJkuLVDJWgGxhDSf0MtfLYugySxlos3DfaVW';
+
+const faq = [
+  {
+    q: 'Which stock photo agencies does Smart Gallery Hub submit to?',
+    a: 'Adobe Stock, Shutterstock, and Getty Images / iStock. SGH uploads files via each agency’s native channel (SFTP for Adobe, FTPS for Shutterstock, S3 for Getty) and then drives the contributor portal to file the submission for you.',
+  },
+  {
+    q: 'Do I need a paid AI subscription to use Smart Gallery Hub?',
+    a: 'No. SGH ships with a local Ollama integration — download a vision model once and run it on your own CPU or GPU, completely free. The AI runs entirely on your machine, so there is no per-image fee and no cloud subscription.',
+  },
+  {
+    q: 'Does the Free tier really work forever?',
+    a: 'Yes. The Free tier is permanent. You can generate AI metadata for unlimited photos and videos, organize them with content-type folders, edit keywords in bulk, write IPTC/XMP metadata back into files, and run the desktop app on one device — all at no cost, forever. On Free, the first 20 keywords per image are written to the file; on Pro, up to 50 are written.',
+  },
+  {
+    q: 'Does Smart Gallery Hub support stock video?',
+    a: 'Yes. SGH extracts representative frames from MP4 / MOV / etc., runs the vision model on them, and submits the clips to agencies that accept stock video. The workflow is identical to still photography.',
+  },
+  {
+    q: 'What about my agency passwords — do you store them?',
+    a: 'No. Smart Gallery Hub runs entirely on your machine. Agency credentials live in a local browser profile on your disk so the automated portal sessions can log in. Nothing leaves your computer — we have no server that sees your credentials, your images, your metadata, or your earnings.',
+  },
+  {
+    q: 'Which platforms does Smart Gallery Hub run on?',
+    a: 'Windows 10 or later (64-bit) and macOS (Apple Silicon and Intel, separate builds). Same feature set on both platforms. Mobile and tablet access is available via the built-in remote web UI, so you can review your library from your phone while your desktop keeps processing.',
+  },
+];
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
+};
 ---
 
 <BaseLayout>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
   <!-- Hero -->
   <section class="max-w-6xl mx-auto px-4 pt-20 pb-16 text-center">
-    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-      AI metadata for your<br />
-      <span class="text-brand-600">entire photo library.</span>
+    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold text-gray-900 leading-tight">
+      <span class="text-brand-600">One click.</span><br />
+      Captioned. Uploaded. Submitted. Tracked.
     </h1>
     <p class="mt-6 text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
-      Smart Gallery Hub generates titles, descriptions, and keywords for thousands of photos and videos — then organizes, tags, and exports them in the format you need.
+      Smart Gallery Hub turns a folder of stock photos and videos into live listings &mdash; automatically. AI writes the metadata, the app handles uploads to your stock platforms, and approvals come back to one dashboard. Drop a folder in. Walk away.
     </p>
     <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
       <a
-        href="https://buy.polar.sh/polar_cl_F7zNynx5wcSfUm96w3eklh2cXR10EYJPdIGMB0rJnYg"
+        href="/download"
         class="bg-brand-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-brand-700 transition-colors shadow-lg shadow-brand-600/25"
       >
         Try Pro Free for 30 Days
       </a>
       <a
-        href="#features"
+        href="#how-it-works"
         class="text-brand-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-brand-50 transition-colors"
       >
-        Learn more &darr;
+        See how it works &darr;
       </a>
     </div>
-    <div class="mt-16 rounded-xl overflow-hidden shadow-2xl border border-gray-200 max-w-4xl mx-auto">
-      <img src="/main.png" alt="Smart Gallery Hub workspace showing image library with metadata panel and content type folders" class="w-full" loading="eager" />
+    <p class="mt-4 text-xs text-gray-500">Free tier forever &middot; no credit card &middot; Windows &amp; Mac</p>
+    <div class="mt-16 rounded-xl overflow-hidden shadow-2xl border border-gray-200 max-w-5xl mx-auto">
+      <img
+        src="/main.png"
+        alt="Smart Gallery Hub workspace: AI metadata for stock photos, multi-agency submission status, and monthly earnings dashboard"
+        class="w-full"
+        loading="eager"
+      />
+      <p class="text-xs text-gray-400 text-center bg-gray-50 py-2 border-t border-gray-100">
+        Smart Gallery Hub Pro shown &mdash; earnings dashboard and auto-submission require Pro.
+      </p>
+    </div>
+  </section>
+
+  <!-- One-click value prop -->
+  <section class="bg-gray-900 text-gray-100 py-20">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="text-3xl sm:text-4xl font-bold">What one click actually does.</h2>
+      <p class="mt-6 text-lg text-gray-300 max-w-2xl mx-auto">
+        Smart Gallery Hub writes the description, picks the keywords, organizes by content type, uploads to your stock platforms, and tracks every approval. You drop a folder in. It does the rest.
+      </p>
+      <div class="mt-12 grid grid-cols-2 gap-6 sm:flex sm:items-start sm:justify-center sm:gap-2 text-center">
+        <div class="sm:flex-1 sm:max-w-[14rem]">
+          <div class="text-3xl mb-2">&#x270F;&#xFE0F;</div>
+          <div class="text-xl font-bold text-brand-600">Description</div>
+          <div class="mt-2 text-sm text-gray-400">written by AI</div>
+        </div>
+        <div class="hidden sm:flex items-center justify-center text-3xl text-gray-500 pt-3 shrink-0" aria-hidden="true">&rarr;</div>
+        <div class="sm:flex-1 sm:max-w-[14rem]">
+          <div class="text-3xl mb-2">&#x1F3F7;&#xFE0F;</div>
+          <div class="text-xl font-bold text-brand-600">AI keywords</div>
+          <div class="mt-2 text-sm text-gray-400">up to 50 keywords</div>
+        </div>
+        <div class="hidden sm:flex items-center justify-center text-3xl text-gray-500 pt-3 shrink-0" aria-hidden="true">&rarr;</div>
+        <div class="sm:flex-1 sm:max-w-[14rem]">
+          <div class="text-3xl mb-2">&#x1F4E4;</div>
+          <div class="text-xl font-bold text-brand-600">Upload + submit</div>
+          <div class="mt-2 text-sm text-gray-400">direct to portal</div>
+        </div>
+        <div class="hidden sm:flex items-center justify-center text-3xl text-gray-500 pt-3 shrink-0" aria-hidden="true">&rarr;</div>
+        <div class="sm:flex-1 sm:max-w-[14rem]">
+          <div class="text-3xl mb-2">&#x2705;</div>
+          <div class="text-xl font-bold text-brand-600">Approvals tracked</div>
+          <div class="mt-2 text-sm text-gray-400">automatically</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how-it-works" class="py-20">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-gray-900">From folder to live listing, in four steps.</h2>
+      <p class="mt-4 text-center text-gray-600 max-w-xl mx-auto">
+        Drop a folder. SGH handles metadata, organization, submission, and tracking.
+      </p>
+
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="relative rounded-xl border border-gray-200 p-6 bg-white">
+          <div class="absolute -top-3 left-6 bg-brand-600 text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center">1</div>
+          <h3 class="mt-2 font-semibold text-gray-900">Add folder, pick content type</h3>
+          <p class="mt-2 text-sm text-gray-600">Drop a folder into a Commercial, Editorial, AI-Generated, or Illustration workspace. Each workspace applies the right metadata fields and agency category mapping &mdash; no more wrong-type rejections.</p>
+        </div>
+        <div class="relative rounded-xl border border-gray-200 p-6 bg-white">
+          <div class="absolute -top-3 left-6 bg-brand-600 text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center">2</div>
+          <h3 class="mt-2 font-semibold text-gray-900">AI writes the metadata</h3>
+          <p class="mt-2 text-sm text-gray-600">The AI model generates titles, descriptions, and keywords per file. Optional: drop a hints file in the folder to steer the AI toward more accurate output.</p>
+        </div>
+        <div class="relative rounded-xl border border-gray-200 p-6 bg-white">
+          <div class="absolute -top-3 left-6 bg-brand-600 text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center">3</div>
+          <h3 class="mt-2 font-semibold text-gray-900">Submit to all three agencies</h3>
+          <p class="mt-2 text-sm text-gray-600">SGH uploads to Adobe Stock, Shutterstock, and Getty. It retries failures and EXIF-stamps every submitted file to help prevent the same image going out twice.</p>
+        </div>
+        <div class="relative rounded-xl border border-gray-200 p-6 bg-white">
+          <div class="absolute -top-3 left-6 bg-brand-600 text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center">4</div>
+          <h3 class="mt-2 font-semibold text-gray-900">Enjoy your coffee</h3>
+          <p class="mt-2 text-sm text-gray-600">SGH keeps submitting, retrying, and tracking approvals in the background. Approvals and earnings roll into one dashboard while you go shoot, edit, or just take a break.</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- Features -->
   <section id="features" class="bg-gray-50 py-20">
     <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center text-gray-900">A complete metadata workflow</h2>
+      <h2 class="text-3xl font-bold text-center text-gray-900">Everything the manual stock photo workflow makes you do.</h2>
       <p class="mt-4 text-center text-gray-600 max-w-xl mx-auto">
-        From raw folder to tagged, organized, export-ready library — in minutes, not hours.
+        One desktop app. Three agencies. The full pipeline &mdash; AI metadata, submission, tracking, earnings.
       </p>
 
-      <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x1F916;</div>
-          <h3 class="font-semibold text-gray-900">AI Metadata Generation</h3>
-          <p class="mt-2 text-sm text-gray-600">Point at a folder. Titles, descriptions, and keywords are generated by AI running on your own hardware.</p>
+          <h3 class="font-semibold text-gray-900">AI metadata generation</h3>
+          <p class="mt-2 text-sm text-gray-600">AI reads each image or video and writes the title, description, and keywords. Editorial content gets a different caption format &mdash; the one each agency expects.</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x1F680;</div>
+          <h3 class="font-semibold text-gray-900">Direct submission to Adobe / Shutter / Getty</h3>
+          <p class="mt-2 text-sm text-gray-600">SGH uploads your files to Adobe, Shutterstock, and Getty and files the submission for you. No dragging files into three different browser tabs.</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x1F501;</div>
+          <h3 class="font-semibold text-gray-900">Submission queue + resume</h3>
+          <p class="mt-2 text-sm text-gray-600">Sends submissions one agency at a time, retries when something fails, and picks up where it left off after a crash. Drop a thousand files in. Walk away.</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x2705;</div>
+          <h3 class="font-semibold text-gray-900">Approval &amp; rejection tracking</h3>
+          <p class="mt-2 text-sm text-gray-600">SGH checks each agency for you and shows what was accepted or rejected &mdash; so you don&rsquo;t need to open three browser tabs to find out.</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x1F4B0;</div>
+          <h3 class="font-semibold text-gray-900">All earnings, one dashboard</h3>
+          <p class="mt-2 text-sm text-gray-600">Brings your earnings from Adobe, Shutterstock, and Getty into one chart. See monthly totals, your top-earning files, and which agency pays you the most.</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x1F4F0;</div>
+          <h3 class="font-semibold text-gray-900">Location-aware AI</h3>
+          <p class="mt-2 text-sm text-gray-600">When your photo contains GPS data, SGH turns it into a real city + country and feeds that to the AI &mdash; for more accurate descriptions, sharper keywords, and the date + city + country prefix every editorial submission needs.</p>
         </div>
 
         <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x1F4C1;</div>
-          <h3 class="font-semibold text-gray-900">Content-Type Organization</h3>
-          <p class="mt-2 text-sm text-gray-600">Sort photos and videos into Default, Commercial, Editorial, AI Generated, or Illustration — each with the right metadata fields.</p>
+          <h3 class="font-semibold text-gray-900">Content-type folders</h3>
+          <p class="mt-2 text-sm text-gray-600">Label folders as Commercial, Editorial, AI-Generated, or Illustration. Each one gets the right fields and the right category for every agency &mdash; so wrong-type submissions get caught before they go out.</p>
         </div>
 
         <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x1F4DD;</div>
-          <h3 class="font-semibold text-gray-900">Keyword Management</h3>
-          <p class="mt-2 text-sm text-gray-600">Review, edit, and refine AI-generated keywords. Bulk-edit across folders. Copy between similar shots.</p>
+          <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x1F441;&#xFE0F;</div>
+          <h3 class="font-semibold text-gray-900">Watch folders</h3>
+          <p class="mt-2 text-sm text-gray-600">Drop new images into a watched folder. SGH picks them up, writes the metadata, and queues them for submission on its own. Set it up once.</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x1F39E;&#xFE0F;</div>
+          <h3 class="font-semibold text-gray-900">Photo &amp; video</h3>
+          <p class="mt-2 text-sm text-gray-600">Same workflow for stock video. SGH grabs a few frames, lets the AI describe the clip, and submits it to agencies that accept video.</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x1F4F1;</div>
+          <h3 class="font-semibold text-gray-900">Mobile + remote access</h3>
+          <p class="mt-2 text-sm text-gray-600">Shoot on your smartphone, import to your home server, and run the full submission &mdash; all from your phone. Your desktop does the work in the background.</p>
         </div>
 
         <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x1F4E6;</div>
-          <h3 class="font-semibold text-gray-900">Flexible Export</h3>
-          <p class="mt-2 text-sm text-gray-600">Export your metadata as CSV in the format each platform expects. Or write metadata back into the image file (IPTC/XMP).</p>
+          <h3 class="font-semibold text-gray-900">Export &amp; no duplicates</h3>
+          <p class="mt-2 text-sm text-gray-600">Export a CSV in each agency&rsquo;s exact format, or save the metadata straight into the image file. Already-submitted files are remembered &mdash; designed to prevent duplicate submissions.</p>
         </div>
 
         <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x1F512;</div>
-          <h3 class="font-semibold text-gray-900">100% Local-First</h3>
-          <p class="mt-2 text-sm text-gray-600">Your images never leave your machine. AI runs on your hardware via Ollama. No cloud uploads, no data sharing.</p>
-        </div>
-
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x2699;&#xFE0F;</div>
-          <h3 class="font-semibold text-gray-900">Bring Your Own AI</h3>
-          <p class="mt-2 text-sm text-gray-600">Use Ollama for free local inference, or connect any OpenAI-compatible API. You choose the model, the cost, and the quality.</p>
+          <h3 class="font-semibold text-gray-900">Local-first</h3>
+          <p class="mt-2 text-sm text-gray-600">Your images stay on your machine. The AI runs on your computer. Nothing uploaded for us to see, nothing trained on your work.</p>
         </div>
       </div>
 
-      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200">
-          <img src="/features/content-type.png" alt="Content type folder organization — Default, Commercial, Editorial, AI Generated, Illustration" class="w-full" loading="lazy" />
-          <div class="p-4 bg-white">
-            <h4 class="font-semibold text-gray-900">Content-Type Folders</h4>
-            <p class="text-sm text-gray-600 mt-1">Organize by type — each gets the right metadata fields and keyword conventions.</p>
+      <!-- Feature spotlights with real screenshots -->
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white">
+          <img
+            src="/features/ai-hints.png"
+            alt="AI hints panel — set a location, prefix, category, and keywords once to guide AI metadata generation across a folder of stock photos"
+            class="w-full"
+            loading="lazy"
+          />
+          <div class="p-4">
+            <h4 class="font-semibold text-gray-900">Hints &mdash; one setting, sharper results</h4>
+            <p class="text-sm text-gray-600 mt-1">Set a location (or category, prefix, must-have keywords) once for a folder. The AI uses your hints across every image in the batch &mdash; for noticeably more accurate descriptions and keywords.</p>
           </div>
         </div>
-        <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200">
-          <img src="/features/ai-generate.png" alt="AI-generated metadata panel with title, description, and keywords" class="w-full" loading="lazy" />
-          <div class="p-4 bg-white">
-            <h4 class="font-semibold text-gray-900">AI-Powered Descriptions</h4>
-            <p class="text-sm text-gray-600 mt-1">Local AI generates titles, descriptions, and keywords — edit or accept in one click.</p>
+        <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white">
+          <img
+            src="/features/auto-editorial-caption.png"
+            alt="AI-generated editorial caption with auto-filled GPS location and date for a stock photo"
+            class="w-full"
+            loading="lazy"
+          />
+          <div class="p-4">
+            <h4 class="font-semibold text-gray-900">Editorial captions, written by AI</h4>
+            <p class="text-sm text-gray-600 mt-1">Date, city, country, and a fact-based description &mdash; written automatically from GPS and EXIF.</p>
+          </div>
+        </div>
+        <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white">
+          <img
+            src="/features/agents-status.png"
+            alt="Approval tracking dashboard for Adobe Stock, Shutterstock, and Getty Images stock photo submissions"
+            class="w-full"
+            loading="lazy"
+          />
+          <div class="p-4">
+            <h4 class="font-semibold text-gray-900">Approval tracking, three agencies</h4>
+            <p class="text-sm text-gray-600 mt-1">See submitted, approved, and rejected counts for Adobe, Shutterstock, and Getty at a glance.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Pricing -->
-  <section id="pricing" class="py-20">
-    <div class="max-w-4xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center text-gray-900">Simple pricing</h2>
-      <p class="mt-4 text-center text-gray-600">
-        Two ways to pay. Same great tool.
+  <!-- Work remotely (mobile web) -->
+  <section id="mobile" class="py-20 bg-gradient-to-b from-white to-gray-50">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-brand-50 text-brand-600 text-2xl">&#x1F4F1;</div>
+      <h2 class="mt-6 text-3xl sm:text-4xl font-bold text-gray-900">Out shooting? Run the whole pipeline from your phone.</h2>
+      <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+        Import new captures straight to your home server, run the AI metadata, and submit to Adobe Stock, Shutterstock, and Getty &mdash; all from the mobile web UI on the same network as your desktop. Your work never leaves the network.
       </p>
 
-      <div class="mt-12 max-w-2xl mx-auto">
-        <ul class="space-y-3 text-sm text-gray-600">
-          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> AI metadata generation (local Ollama or OpenAI-compatible)</li>
-          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Content-type organization (photo, video, editorial, illustration)</li>
-          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Keyword editor with bulk actions</li>
-          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> CSV export in platform-specific formats</li>
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
+        <div class="flex flex-col items-center">
+          <div class="rounded-[2rem] overflow-hidden border-[6px] border-gray-900 shadow-2xl bg-gray-900 max-w-[260px]">
+            <img
+              src="/features/mobile-view-import.png"
+              alt="Smart Gallery Hub mobile web interface &mdash; importing photos to a home server from a phone"
+              class="w-full block"
+              loading="lazy"
+            />
+          </div>
+          <div class="mt-6 max-w-xs">
+            <div class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-brand-600 text-white text-xs font-bold">1</div>
+            <h3 class="mt-3 font-semibold text-gray-900">Import to your home server</h3>
+            <p class="mt-2 text-sm text-gray-600">Tap &ldquo;Import&rdquo; on your phone. New shots go straight into the right Editorial or Commercial workspace on your home desktop.</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <div class="rounded-[2rem] overflow-hidden border-[6px] border-gray-900 shadow-2xl bg-gray-900 max-w-[260px]">
+            <img
+              src="/features/mobile-view.png"
+              alt="Smart Gallery Hub mobile library view &mdash; stock photo grid on a phone"
+              class="w-full block"
+              loading="lazy"
+            />
+          </div>
+          <div class="mt-6 max-w-xs">
+            <div class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-brand-600 text-white text-xs font-bold">2</div>
+            <h3 class="mt-3 font-semibold text-gray-900">Review on any screen</h3>
+            <p class="mt-2 text-sm text-gray-600">Browse, filter, and check approvals on your phone or tablet. Same library, same content-type folders, same status badges as on the desktop.</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <div class="rounded-[2rem] overflow-hidden border-[6px] border-gray-900 shadow-2xl bg-gray-900 max-w-[260px]">
+            <img
+              src="/features/mobile-view-operation.png"
+              alt="Smart Gallery Hub mobile operation bar with AI, Adobe, Shutterstock, and Getty submission buttons"
+              class="w-full block"
+              loading="lazy"
+            />
+          </div>
+          <div class="mt-6 max-w-xs">
+            <div class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-brand-600 text-white text-xs font-bold">3</div>
+            <h3 class="mt-3 font-semibold text-gray-900">Trigger the full submission</h3>
+            <p class="mt-2 text-sm text-gray-600">One tap to run AI metadata. One tap to submit to Adobe, Shutterstock, or Getty. The desktop does the heavy lifting in the background.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12 inline-flex items-start gap-3 rounded-xl bg-brand-50 border-2 border-brand-600 text-left p-5 max-w-2xl mx-auto">
+        <span class="text-brand-600 text-2xl shrink-0 leading-none mt-0.5">&#x1F512;</span>
+        <p class="text-sm sm:text-base text-gray-900 font-medium leading-relaxed">
+          Mobile access uses the same private network as your desktop &mdash; <span class="text-brand-700 font-bold">no third-party server, no cloud relay.</span> Your library stays on the machine that owns it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison (anonymized) -->
+  <section id="compare" class="py-20">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-900">
+        <span class="text-brand-600">Only</span> Smart Gallery Hub does it all.
+      </h2>
+      <p class="mt-4 text-center text-gray-600 max-w-2xl mx-auto">
+        Cloud tools do AI keywording. Cloud submission services do uploads. Desktop apps stop at half the workflow. Six things matter to a serious microstock contributor &mdash; and only one app ships them in a single, local-first desktop tool.
+      </p>
+
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+        <div class="flex items-start gap-3 rounded-xl bg-brand-50/50 border border-brand-200 p-5">
+          <span class="text-brand-600 text-xl shrink-0 mt-0.5">&#x2713;</span>
+          <div>
+            <h3 class="font-semibold text-gray-900">Only SGH runs AI locally <span class="text-gray-400 font-normal">&mdash; unlimited</span></h3>
+            <p class="mt-1 text-sm text-gray-600">Unlimited metadata generation. No per-image fee. No images uploaded to anyone&rsquo;s cloud.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 rounded-xl bg-brand-50/50 border border-brand-200 p-5">
+          <span class="text-brand-600 text-xl shrink-0 mt-0.5">&#x2713;</span>
+          <div>
+            <h3 class="font-semibold text-gray-900">Only SGH switches caption style by content type</h3>
+            <p class="mt-1 text-sm text-gray-600">Commercial gets sales copy. Editorial gets &ldquo;CITY, COUNTRY &ndash; DATE&hellip;&rdquo;. AI knows the difference.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 rounded-xl bg-brand-50/50 border border-brand-200 p-5">
+          <span class="text-brand-600 text-xl shrink-0 mt-0.5">&#x2713;</span>
+          <div>
+            <h3 class="font-semibold text-gray-900">Only SGH auto-fills editorial captions from GPS</h3>
+            <p class="mt-1 text-sm text-gray-600">Reverse-geocodes the EXIF, prepends &ldquo;Date &ndash; City, Country&rdquo; in the exact format editorial portals expect.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 rounded-xl bg-brand-50/50 border border-brand-200 p-5">
+          <span class="text-brand-600 text-xl shrink-0 mt-0.5">&#x2713;</span>
+          <div>
+            <h3 class="font-semibold text-gray-900">Only SGH ships the full pipeline in one app</h3>
+            <p class="mt-1 text-sm text-gray-600">AI metadata, submission, approval tracking, and a unified earnings dashboard &mdash; not four different tools held together with CSV exports.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 rounded-xl bg-brand-50/50 border border-brand-200 p-5">
+          <span class="text-brand-600 text-xl shrink-0 mt-0.5">&#x2713;</span>
+          <div>
+            <h3 class="font-semibold text-gray-900">Only SGH gives Mac contributors the full feature set</h3>
+            <p class="mt-1 text-sm text-gray-600">Windows AND Mac &mdash; same features. Plus mobile / remote web access so you can check approvals away from your desk.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 rounded-xl bg-brand-50/50 border border-brand-200 p-5">
+          <span class="text-brand-600 text-xl shrink-0 mt-0.5">&#x2713;</span>
+          <div>
+            <h3 class="font-semibold text-gray-900">Only SGH lets you pay once and stop paying</h3>
+            <p class="mt-1 text-sm text-gray-600">$199 lifetime &mdash; with the AI included. No subscription, no AI-credit meter on top.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="mt-12 text-center text-sm text-gray-500 max-w-2xl mx-auto">
+        The full feature-by-feature comparison is below.
+      </p>
+
+      <div class="mt-12 overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+        <table class="w-full text-sm bg-white">
+          <thead>
+            <tr class="border-b border-gray-200 bg-gray-50">
+              <th class="text-left py-4 px-4 font-semibold text-gray-700 w-64 sticky left-0 bg-gray-50 z-10">Feature</th>
+              <th class="py-4 px-2 text-center font-bold text-brand-700 bg-brand-50 whitespace-nowrap min-w-[7rem]">
+                SGH
+                <div class="text-[10px] font-normal text-brand-600/80 mt-0.5">all-in-one</div>
+              </th>
+              <th class="py-4 px-2 text-center font-medium text-gray-700 whitespace-nowrap min-w-[6rem]">
+                Cloud A
+                <div class="text-[10px] font-normal text-gray-500 mt-0.5">AI keywording</div>
+              </th>
+              <th class="py-4 px-2 text-center font-medium text-gray-700 whitespace-nowrap min-w-[6rem]">
+                Cloud B
+                <div class="text-[10px] font-normal text-gray-500 mt-0.5">submission hub</div>
+              </th>
+              <th class="py-4 px-2 text-center font-medium text-gray-700 whitespace-nowrap min-w-[6rem]">
+                Cloud C
+                <div class="text-[10px] font-normal text-gray-500 mt-0.5">all-in-one</div>
+              </th>
+              <th class="py-4 px-2 text-center font-medium text-gray-700 whitespace-nowrap min-w-[6rem]">
+                Desktop A
+                <div class="text-[10px] font-normal text-gray-500 mt-0.5">metadata editor</div>
+              </th>
+              <th class="py-4 px-2 text-center font-medium text-gray-700 whitespace-nowrap min-w-[6rem]">
+                Desktop B
+                <div class="text-[10px] font-normal text-gray-500 mt-0.5">auto-submitter</div>
+              </th>
+              <th class="py-4 px-2 text-center font-medium text-gray-700 whitespace-nowrap min-w-[6rem]">
+                Desktop C
+                <div class="text-[10px] font-normal text-gray-500 mt-0.5">all-in-one</div>
+              </th>
+            </tr>
+            <tr class="border-b border-gray-200 text-xs text-gray-500">
+              <th class="text-left py-2 px-4 font-medium sticky left-0 bg-white z-10">Platform</th>
+              <th class="py-2 px-2 text-center bg-brand-50/50 font-semibold text-gray-700 whitespace-nowrap">Win + Mac</th>
+              <th class="py-2 px-2 text-center whitespace-nowrap">Web</th>
+              <th class="py-2 px-2 text-center whitespace-nowrap">Web</th>
+              <th class="py-2 px-2 text-center whitespace-nowrap">Web</th>
+              <th class="py-2 px-2 text-center whitespace-nowrap">Win/Mac/Linux</th>
+              <th class="py-2 px-2 text-center whitespace-nowrap font-semibold text-gray-700">Win only</th>
+              <th class="py-2 px-2 text-center whitespace-nowrap">Win + Mac</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-700">
+            <tr class="border-b border-gray-100">
+              <td class="py-3 px-4 font-medium sticky left-0 bg-white z-10">AI metadata generation</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;<sup class="text-xs">1</sup></td>
+              <td class="py-3 px-2 text-center">&#x2705;<sup class="text-xs">2</sup></td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;</td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;<sup class="text-xs">3</sup></td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;<sup class="text-xs">4</sup></td>
+              <td class="py-3 px-2 text-center">&#x2705;<sup class="text-xs">5</sup></td>
+            </tr>
+            <tr class="border-b border-gray-100 bg-brand-50/20">
+              <td class="py-3 px-4 font-medium sticky left-0 bg-brand-50/20 z-10">AI auto-switches Commercial / Editorial caption style</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&mdash;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+            </tr>
+            <tr class="border-b border-gray-100 bg-brand-50/20">
+              <td class="py-3 px-4 font-medium sticky left-0 bg-brand-50/20 z-10">Unlimited AI &mdash; no per-image fee</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&mdash;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;<sup class="text-xs">6</sup></td>
+            </tr>
+            <tr class="border-b border-gray-100 bg-brand-50/20">
+              <td class="py-3 px-4 font-medium sticky left-0 bg-brand-50/20 z-10">AI runs locally on your machine</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&mdash;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;<sup class="text-xs">7</sup></td>
+            </tr>
+            <tr class="border-b border-gray-100 bg-brand-50/20">
+              <td class="py-3 px-4 font-medium sticky left-0 bg-brand-50/20 z-10">Images stay on your machine</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;<sup class="text-xs">8</sup></td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;<sup class="text-xs">7</sup></td>
+            </tr>
+            <tr class="border-b border-gray-100">
+              <td class="py-3 px-4 font-medium sticky left-0 bg-white z-10">Auto-submit to Adobe / Shutter / Getty</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+            </tr>
+            <tr class="border-b border-gray-100">
+              <td class="py-3 px-4 font-medium sticky left-0 bg-white z-10">Editorial / Commercial type system</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+            </tr>
+            <tr class="border-b border-gray-100">
+              <td class="py-3 px-4 font-medium sticky left-0 bg-white z-10">Submission queue with auto-retry &amp; resume</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&mdash;</td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+            </tr>
+            <tr class="border-b border-gray-100">
+              <td class="py-3 px-4 font-medium sticky left-0 bg-white z-10">Approval / rejection tracking</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;<sup class="text-xs">9</sup></td>
+            </tr>
+            <tr class="border-b border-gray-100">
+              <td class="py-3 px-4 font-medium sticky left-0 bg-white z-10">Unified earnings dashboard</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;<sup class="text-xs">9</sup></td>
+            </tr>
+            <tr class="border-b border-gray-100">
+              <td class="py-3 px-4 font-medium sticky left-0 bg-white z-10">Watch folders / hands-free automation</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;<sup class="text-xs">10</sup></td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;<sup class="text-xs">10</sup></td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+            </tr>
+            <tr class="border-b border-gray-100">
+              <td class="py-3 px-4 font-medium sticky left-0 bg-white z-10">Video support</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;</td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+            </tr>
+            <tr class="border-b border-gray-100 bg-brand-50/20">
+              <td class="py-3 px-4 font-medium sticky left-0 bg-brand-50/20 z-10">GPS &rarr; editorial caption auto-fill</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+            </tr>
+            <tr class="border-b border-gray-100">
+              <td class="py-3 px-4 font-medium sticky left-0 bg-white z-10">Mobile / remote web access</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-medium sticky left-0 bg-white z-10">One-time lifetime pricing option</td>
+              <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center text-gray-400">&#x274C;</td>
+              <td class="py-3 px-2 text-center">&#x2705;</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="border-t-2 border-gray-200 bg-gray-50 text-xs">
+              <td class="py-4 px-4 font-semibold text-gray-900 sticky left-0 bg-gray-50 z-10">
+                Yearly cost
+                <div class="text-[10px] font-normal text-gray-500 mt-0.5">~1,000 images / month<sup>11</sup></div>
+              </td>
+              <td class="py-4 px-2 text-center bg-brand-50 text-brand-700 font-bold whitespace-nowrap">$59.99</td>
+              <td class="py-4 px-2 text-center text-gray-700">~$77<sup class="text-[10px]">12</sup></td>
+              <td class="py-4 px-2 text-center text-gray-700">~$120<sup class="text-[10px]">13</sup></td>
+              <td class="py-4 px-2 text-center text-gray-700">~$480</td>
+              <td class="py-4 px-2 text-center text-gray-700">~$60<sup class="text-[10px]">14</sup></td>
+              <td class="py-4 px-2 text-center text-gray-700">~$480</td>
+              <td class="py-4 px-2 text-center text-gray-700">~$144</td>
+            </tr>
+            <tr class="border-t border-gray-200 bg-gray-50 text-xs">
+              <td class="py-4 px-4 font-semibold text-gray-900 sticky left-0 bg-gray-50 z-10">Lifetime</td>
+              <td class="py-4 px-2 text-center bg-brand-50 text-brand-700 font-bold whitespace-nowrap">$199</td>
+              <td class="py-4 px-2 text-center text-gray-400">&mdash;</td>
+              <td class="py-4 px-2 text-center text-gray-400">&mdash;</td>
+              <td class="py-4 px-2 text-center text-gray-400">&mdash;</td>
+              <td class="py-4 px-2 text-center text-gray-400">&mdash;</td>
+              <td class="py-4 px-2 text-center text-gray-400">&mdash;</td>
+              <td class="py-4 px-2 text-center text-gray-700 whitespace-nowrap">$169<sup class="text-[10px]">15</sup></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="mt-6 text-xs text-gray-500 max-w-4xl mx-auto">
+        <p class="font-semibold text-gray-700 mb-2">Notes</p>
+        <ol class="space-y-1 list-decimal pl-5">
+          <li>Local Ollama (free, runs on your own hardware).</li>
+          <li>Cloud vision model billed per credit.</li>
+          <li>AI keywording behind a paid tier.</li>
+          <li>AI keywording runs partly on the vendor&rsquo;s cloud.</li>
+          <li>AI is a separate paid service from the same vendor.</li>
+          <li>App is one-time, but AI keywording is metered separately.</li>
+          <li>Vendor&rsquo;s AI runs in the cloud &mdash; images uploaded for the AI step.</li>
+          <li>Sales tracking flows through the vendor&rsquo;s cloud.</li>
+          <li>Has submission history, but not a unified earnings dashboard.</li>
+          <li>Available via third-party plugin.</li>
+          <li>Yearly cost estimates assume a moderate-volume contributor processing ~1,000 images per month (~12,000 per year). Actual cost scales with usage and current vendor pricing.</li>
+          <li>Credit packs sized to ~12,000 keyword requests per year (e.g. 10,000-credit pack at $59 + 2,000-credit pack at $18).</li>
+          <li>Pay-as-you-go at ~$0.01 per upload, ~12,000 uploads per year.</li>
+          <li>Pro subscription tier; pricing varies and may include a yearly discount.</li>
+          <li>App is a one-time purchase. AI keywording is a separately metered cloud service on top &mdash; not included.</li>
+        </ol>
+        <p class="mt-3 italic text-gray-400">Columns anonymized. Each represents the typical capabilities of leading products in that category as of 2026. Individual products may differ.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy callout -->
+  <section class="bg-gray-50 py-20">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-brand-50 text-brand-600 text-2xl">&#x1F512;</div>
+      <h2 class="mt-6 text-3xl font-bold text-gray-900">Your stock photo library stays on your machine.</h2>
+      <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+        SGH runs as a desktop app. AI runs locally through <a href="https://ollama.com/" target="_blank" rel="noopener noreferrer" class="text-brand-600 hover:text-brand-700 underline">Ollama</a> on your CPU or GPU. You pick the model that fits your hardware, with zero cloud cost and no images leaving your computer. We don&rsquo;t see your images, your metadata, or your agency credentials.
+      </p>
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto text-left">
+        <div class="rounded-lg bg-white border border-gray-200 p-5">
+          <h3 class="font-semibold text-gray-900">Local Ollama</h3>
+          <p class="mt-2 text-sm text-gray-600">Free, private, runs offline. Use any vision model that fits your hardware.</p>
+        </div>
+        <div class="rounded-lg bg-white border border-gray-200 p-5">
+          <h3 class="font-semibold text-gray-900">Credentials stay local</h3>
+          <p class="mt-2 text-sm text-gray-600">Agency logins live in a profile folder on your disk. SGH talks to Adobe / Shutter / Getty directly &mdash; not through any server of ours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing — 3 tiers -->
+  <section id="pricing" class="py-20">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-gray-900">Pricing for microstock contributors</h2>
+      <p class="mt-4 text-center text-gray-600 max-w-2xl mx-auto">
+        Start free forever. Upgrade when you want to automate the submission, tracking, and earnings side.
+      </p>
+
+      <div class="mt-12 max-w-3xl mx-auto rounded-xl bg-gray-50 border border-gray-200 p-6 text-sm text-gray-700">
+        <p class="font-semibold text-gray-900">What Pro adds on top of Free</p>
+        <ul class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Auto-submit to Adobe Stock, Shutterstock, Getty</li>
+          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Submission queue with auto-retry &amp; resume</li>
+          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Approval / rejection tracking</li>
+          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Unified earnings dashboard</li>
+          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> GPS editorial caption auto-fill</li>
+          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Watch folders &amp; full automation</li>
+          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Mobile / remote web access</li>
+          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> CSV export in agency-specific formats</li>
+          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Up to 50 keywords written per image</li>
           <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Activate on up to 5 devices</li>
-          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> 30-day free trial, no credit card</li>
         </ul>
       </div>
 
-      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <!-- Free -->
+        <div class="rounded-xl border border-gray-200 p-8 bg-white flex flex-col">
+          <h3 class="text-lg font-semibold text-gray-900">Free</h3>
+          <p class="mt-2 text-4xl font-bold text-gray-900">$0</p>
+          <p class="mt-1 text-sm text-gray-500">Forever &middot; no credit card</p>
+          <ul class="mt-6 space-y-2 text-sm text-gray-700 flex-1">
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Unlimited AI metadata generation</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Content-type folders (Editorial / Commercial / AI / Illustration)</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Keyword editor with bulk actions</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Write metadata to file (IPTC/XMP)</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Photo &amp; video support</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> 30-day free Pro experience, no credit card</li>
+          </ul>
+          <a
+            href="/download"
+            class="mt-8 block text-center bg-gray-100 text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors"
+          >
+            Download Free
+          </a>
+        </div>
+
         <!-- Pro Annual -->
-        <div class="rounded-xl border-2 border-brand-600 p-8 relative">
+        <div class="rounded-xl border-2 border-brand-600 p-8 bg-white flex flex-col relative">
           <div class="absolute -top-3 left-6 bg-brand-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
             Most popular
           </div>
           <h3 class="text-lg font-semibold text-gray-900">Pro Annual</h3>
           <p class="mt-2 text-4xl font-bold text-gray-900">$59.99</p>
           <p class="mt-1 text-sm text-gray-500">per year &middot; ~$5.00/month</p>
+          <ul class="mt-6 space-y-2 text-sm text-gray-700 flex-1">
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Everything in Free, plus:</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Auto-submit to Adobe / Shutter / Getty</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Approval tracking + earnings dashboard</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> GPS editorial captions + watch folders</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Mobile / remote web access</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Up to 50 keywords + CSV export</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> 5 device activation</li>
+          </ul>
           <a
-            href="https://buy.polar.sh/polar_cl_F7zNynx5wcSfUm96w3eklh2cXR10EYJPdIGMB0rJnYg"
+            href={POLAR_ANNUAL}
             class="mt-8 block text-center bg-brand-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-700 transition-colors"
           >
-            Start Free Trial
+            Subscribe Now
           </a>
         </div>
 
         <!-- Pro Lifetime -->
-        <div class="rounded-xl border border-gray-200 p-8 relative">
+        <div class="rounded-xl border border-gray-200 p-8 bg-white flex flex-col relative">
           <div class="absolute -top-3 left-6 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full">
             Best value
           </div>
           <h3 class="text-lg font-semibold text-gray-900">Pro Lifetime</h3>
           <p class="mt-2 text-4xl font-bold text-gray-900">$199.99</p>
           <p class="mt-1 text-sm text-gray-500">one-time payment &middot; forever</p>
-          <p class="mt-2 text-xs text-gray-400">Pay once, save after ~3.3 years</p>
+          <ul class="mt-6 space-y-2 text-sm text-gray-700 flex-1">
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Every Pro feature &mdash; forever</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> No yearly renewal</li>
+            <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> 5 device activation</li>
+            <li class="flex items-start gap-2 text-gray-500"><span class="text-gray-400 mt-0.5">&#x2022;</span> Pay once &mdash; save vs Annual after ~3.3 years</li>
+          </ul>
           <a
-            href="https://buy.polar.sh/polar_cl_sP7CCTfGJkuLVDJWgGxhDSf0MtfLYugySxlos3DfaVW"
+            href={POLAR_LIFETIME}
             class="mt-8 block text-center bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-900 transition-colors"
           >
             Buy Lifetime
           </a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="bg-gray-50 py-20">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-gray-900">Common questions about Smart Gallery Hub</h2>
+      <div class="mt-12 space-y-4">
+        {faq.map((item) => (
+          <details class="group rounded-lg border border-gray-200 bg-white p-5">
+            <summary class="font-semibold text-gray-900 cursor-pointer flex items-center justify-between gap-4">
+              {item.q}
+              <span class="text-gray-400 group-open:rotate-180 transition-transform shrink-0">&#x25BC;</span>
+            </summary>
+            <p class="mt-3 text-sm text-gray-600 leading-relaxed">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-20">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">Stop clicking. Start shipping.</h2>
+      <p class="mt-4 text-lg text-gray-600">
+        Free forever for AI metadata. 30 days free for the full Pro pipeline. Your stock photos stay on your machine.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="/download"
+          class="bg-gray-100 text-gray-900 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-200 transition-colors"
+        >
+          Download Free
+        </a>
+        <a
+          href="/download"
+          class="bg-brand-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-brand-700 transition-colors shadow-lg shadow-brand-600/25"
+        >
+          Try Pro Free for 30 Days
+        </a>
       </div>
     </div>
   </section>
