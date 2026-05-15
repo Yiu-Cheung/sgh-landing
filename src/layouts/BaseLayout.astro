@@ -3,6 +3,8 @@ import '@fontsource/inter/400.css';
 import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
 import '../styles/global.css';
+import { Image } from 'astro:assets';
+import logoImage from '../assets/logo.png';
 
 interface Props {
   title?: string;
@@ -15,6 +17,12 @@ const {
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+// Optional analytics + search-console verification (set via Cloudflare Pages env vars).
+// PUBLIC_ prefix is required for client-side access in Astro.
+const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+const gscVerification = import.meta.env.PUBLIC_GSC_VERIFICATION;
+const bingVerification = import.meta.env.PUBLIC_BING_VERIFICATION;
 
 const softwareApplicationLd = {
   '@context': 'https://schema.org',
@@ -72,13 +80,21 @@ const softwareApplicationLd = {
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json" set:html={JSON.stringify(softwareApplicationLd)} />
+    {gscVerification && <meta name="google-site-verification" content={gscVerification} />}
+    {bingVerification && <meta name="msvalidate.01" content={bingVerification} />}
+    {gaMeasurementId && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}></script>
+        <script set:html={`window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${gaMeasurementId}');`}></script>
+      </>
+    )}
     <slot name="head" />
   </head>
   <body class="bg-white text-gray-900 font-sans antialiased">
     <header class="border-b border-gray-100">
       <nav class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         <a href="/" class="flex items-center gap-2 text-xl font-bold text-gray-900 hover:text-brand-700 transition-colors">
-          <img src="/logo.png" alt="SGH" class="w-8 h-8 rounded-lg" />
+          <Image src={logoImage} alt="Smart Gallery Hub logo" class="w-8 h-8 rounded-lg" width={64} height={64} format="webp" quality={88} />
           Smart Gallery Hub
         </a>
         <div class="flex items-center gap-6 text-sm font-medium text-gray-600">
@@ -104,6 +120,7 @@ const softwareApplicationLd = {
       <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
         <p>&copy; {new Date().getFullYear()} Smart Gallery Hub. All rights reserved.</p>
         <div class="flex gap-6">
+          <a href="/blog/" class="hover:text-gray-700 transition-colors">Blog</a>
           <a href="/privacy" class="hover:text-gray-700 transition-colors">Privacy Policy</a>
           <a href="/terms" class="hover:text-gray-700 transition-colors">Terms of Service</a>
           <a href="mailto:support@smartgalleryhub.com" class="hover:text-gray-700 transition-colors">Support</a>

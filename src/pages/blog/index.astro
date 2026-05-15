@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+
+const dateFmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout
+  title="Stock photography blog — Smart Gallery Hub"
+  description="Tips, guides, and case studies for microstock contributors. Metadata, AI keywording, submission workflows, and earnings."
+>
+  <section class="max-w-4xl mx-auto px-4 pt-20 pb-12">
+    <p class="text-sm font-semibold text-brand-600 uppercase tracking-wide">Blog</p>
+    <h1 class="mt-2 text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">Notes from the stock photography workflow.</h1>
+    <p class="mt-4 text-lg text-gray-600 max-w-2xl">
+      Guides, real-world tests, and notes from building Smart Gallery Hub. Written for microstock contributors who want to sell more and click less.
+    </p>
+  </section>
+
+  <section class="max-w-4xl mx-auto px-4 pb-20">
+    {posts.length === 0 ? (
+      <p class="text-gray-500">No posts yet. Check back soon.</p>
+    ) : (
+      <div class="space-y-10">
+        {posts.map((post) => (
+          <article class="border-b border-gray-200 pb-10">
+            <a href={`/blog/${post.id}/`} class="group block">
+              <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 group-hover:text-brand-700 transition-colors leading-tight">
+                {post.data.title}
+              </h2>
+              <p class="mt-3 text-sm text-gray-500">
+                {dateFmt(post.data.publishDate)}
+                {post.data.tags.length > 0 && (
+                  <>
+                    <span class="mx-2">&middot;</span>
+                    <span>{post.data.tags.join(', ')}</span>
+                  </>
+                )}
+              </p>
+              <p class="mt-4 text-gray-700 leading-relaxed">{post.data.description}</p>
+              <p class="mt-4 text-sm font-semibold text-brand-600 group-hover:text-brand-700">Read &rarr;</p>
+            </a>
+          </article>
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>
