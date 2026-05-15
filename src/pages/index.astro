@@ -1,5 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import heroImage from '../assets/main.png';
+import aiHintsImage from '../assets/features/ai-hints.png';
+import autoEditorialCaptionImage from '../assets/features/auto-editorial-caption.png';
+import agentsStatusImage from '../assets/features/agents-status.png';
+import mobileViewImage from '../assets/features/mobile-view.png';
+import mobileViewImportImage from '../assets/features/mobile-view-import.png';
+import mobileViewOperationImage from '../assets/features/mobile-view-operation.png';
 
 // TODO(polar-checkout-url): Polar product checkout URLs. Update if the Polar variant IDs change.
 const POLAR_ANNUAL = 'https://buy.polar.sh/polar_cl_F7zNynx5wcSfUm96w3eklh2cXR10EYJPdIGMB0rJnYg';
@@ -74,11 +82,15 @@ const faqLd = {
     </div>
     <p class="mt-4 text-xs text-gray-500">Free tier forever &middot; no credit card &middot; Windows &amp; Mac</p>
     <div class="mt-16 rounded-xl overflow-hidden shadow-2xl border border-gray-200 max-w-5xl mx-auto">
-      <img
-        src="/main.png"
+      <Image
+        src={heroImage}
         alt="Smart Gallery Hub workspace: AI metadata for stock photos, multi-agency submission status, and monthly earnings dashboard"
         class="w-full"
+        widths={[768, 1280, 1920]}
+        sizes="(max-width: 768px) 100vw, 80vw"
         loading="eager"
+        format="webp"
+        quality={82}
       />
       <p class="text-xs text-gray-400 text-center bg-gray-50 py-2 border-t border-gray-100">
         Smart Gallery Hub Pro shown &mdash; earnings dashboard and auto-submission require Pro.
@@ -239,11 +251,15 @@ const faqLd = {
       <!-- Feature spotlights with real screenshots -->
       <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white">
-          <img
-            src="/features/ai-hints.png"
+          <Image
+            src={aiHintsImage}
             alt="AI hints panel — set a location, prefix, category, and keywords once to guide AI metadata generation across a folder of stock photos"
             class="w-full"
+            widths={[300, 600]}
+            sizes="(max-width: 768px) 100vw, 33vw"
             loading="lazy"
+            format="webp"
+            quality={82}
           />
           <div class="p-4">
             <h4 class="font-semibold text-gray-900">Hints &mdash; one setting, sharper results</h4>
@@ -251,11 +267,15 @@ const faqLd = {
           </div>
         </div>
         <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white">
-          <img
-            src="/features/auto-editorial-caption.png"
+          <Image
+            src={autoEditorialCaptionImage}
             alt="AI-generated editorial caption with auto-filled GPS location and date for a stock photo"
             class="w-full"
+            widths={[400, 800]}
+            sizes="(max-width: 768px) 100vw, 33vw"
             loading="lazy"
+            format="webp"
+            quality={80}
           />
           <div class="p-4">
             <h4 class="font-semibold text-gray-900">Editorial captions, written by AI</h4>
@@ -263,11 +283,15 @@ const faqLd = {
           </div>
         </div>
         <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white">
-          <img
-            src="/features/agents-status.png"
+          <Image
+            src={agentsStatusImage}
             alt="Approval tracking dashboard for Adobe Stock, Shutterstock, and Getty Images stock photo submissions"
             class="w-full"
+            widths={[400, 800]}
+            sizes="(max-width: 768px) 100vw, 33vw"
             loading="lazy"
+            format="webp"
+            quality={82}
           />
           <div class="p-4">
             <h4 class="font-semibold text-gray-900">Approval tracking, three agencies</h4>
@@ -290,11 +314,15 @@ const faqLd = {
       <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
         <div class="flex flex-col items-center">
           <div class="rounded-[2rem] overflow-hidden border-[6px] border-gray-900 shadow-2xl bg-gray-900 max-w-[260px]">
-            <img
-              src="/features/mobile-view-import.png"
-              alt="Smart Gallery Hub mobile web interface &mdash; importing photos to a home server from a phone"
+            <Image
+              src={mobileViewImportImage}
+              alt="Smart Gallery Hub mobile web interface — importing photos to a home server from a phone"
               class="w-full block"
+              widths={[260, 520]}
+              sizes="(max-width: 768px) 80vw, 260px"
               loading="lazy"
+              format="webp"
+              quality={80}
             />
           </div>
           <div class="mt-6 max-w-xs">
@@ -306,11 +334,15 @@ const faqLd = {
 
         <div class="flex flex-col items-center">
           <div class="rounded-[2rem] overflow-hidden border-[6px] border-gray-900 shadow-2xl bg-gray-900 max-w-[260px]">
-            <img
-              src="/features/mobile-view.png"
-              alt="Smart Gallery Hub mobile library view &mdash; stock photo grid on a phone"
+            <Image
+              src={mobileViewImage}
+              alt="Smart Gallery Hub mobile library view — stock photo grid on a phone"
               class="w-full block"
+              widths={[260, 520]}
+              sizes="(max-width: 768px) 80vw, 260px"
               loading="lazy"
+              format="webp"
+              quality={80}
             />
           </div>
           <div class="mt-6 max-w-xs">
@@ -322,11 +354,15 @@ const faqLd = {
 
         <div class="flex flex-col items-center">
           <div class="rounded-[2rem] overflow-hidden border-[6px] border-gray-900 shadow-2xl bg-gray-900 max-w-[260px]">
-            <img
-              src="/features/mobile-view-operation.png"
+            <Image
+              src={mobileViewOperationImage}
               alt="Smart Gallery Hub mobile operation bar with AI, Adobe, Shutterstock, and Getty submission buttons"
               class="w-full block"
+              widths={[260, 520]}
+              sizes="(max-width: 768px) 80vw, 260px"
               loading="lazy"
+              format="webp"
+              quality={80}
             />
           </div>
           <div class="mt-6 max-w-xs">
