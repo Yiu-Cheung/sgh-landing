@@ -1,162 +1,104 @@
 ---
 title: "Getting started with Smart Gallery Hub"
-description: "Install Smart Gallery Hub, set up local AI metadata generation, add your first workspace, and run your first batch of stock photo keywording — in about 15 minutes."
-order: 1
+description: "Install SGH, run AI metadata on your first folder, and submit."
+order: 2
 duration: "~15 min"
 level: beginner
 updatedDate: 2026-05-15
 tags: [getting-started, installation, ollama, workspace]
 ---
 
-This tutorial walks you through your first 15 minutes with Smart Gallery Hub: install the app, plug in a local AI model, add a folder, generate metadata, and review the output. No agency credentials needed for this walkthrough — that comes in [the submission tutorial](/tutorials/) (coming next).
+## 1. Install Smart Gallery Hub
 
-By the end you'll have a working library, AI-generated metadata on a real folder of photos, and the metadata written back into your image files.
+[Download](/download) for Windows or Mac → run the installer → launch.
 
-## What you'll need
+### Windows
 
-- Windows 10+ (64-bit) or macOS (Apple Silicon or Intel).
-- A folder of photos to test on (50–200 images is comfortable; more is fine).
-- ~8 GB free disk space (the AI model takes most of this).
-- ~15 minutes of attention.
+Run `SGH-Setup.exe` → follow the installer → done.
 
-## Step 1: Download and install
+### Mac — first-launch warning
 
-1. Open [smartgalleryhub.com/download](/download) on the computer you'll use for SGH.
-2. Click the **Windows** or **Mac** download card — the installer downloads from `dl.smartgalleryhub.com` (the same Cloudflare R2 bucket Pro builds publish to).
-3. Run the installer.
-   - **Windows:** NSIS installer, ~150 MB. Pick a destination, click through.
-   - **Mac:** open the `.dmg`, drag SGH into Applications, then right-click → Open the first time (macOS requires the right-click for first launch of unsigned apps).
-4. Launch Smart Gallery Hub. You'll see the welcome screen.
+SGH is not Apple-notarised, so macOS blocks the first launch. Two extra clicks to allow it:
 
-The first launch creates a small SQLite database in your user profile. Nothing is sent anywhere; this is purely local.
+**a.** Double-click `SGH - Smart Gallery Hub.app`. macOS shows:
 
-## Step 2: Activate the 30-day Pro experience
+![macOS first-launch dialog: "SGH - Smart Gallery Hub" Not Opened, with Done and Move to Bin buttons](/tutorials/getting-started/macos-01-not-opened.png)
 
-The Free tier is permanent and runs forever. For the first 30 days you also get every Pro feature — so you can try the automated submission, approval tracking, and earnings dashboard before deciding if you need them.
+Click **Done** (do **not** Move to Bin).
 
-- No credit card.
-- No email signup.
-- The trial activates the first time you launch and is per-machine.
+**b.** Open the Apple menu → **System Settings…**:
 
-After 30 days, Pro features disable; AI metadata, content-type folders, keyword editing, and write-to-file stay Free forever.
+![Apple menu showing System Settings option](/tutorials/getting-started/macos-02-system-settings.png)
 
-## Step 3: Install Ollama (the local AI runtime)
+**c.** Go to **Privacy & Security**. Scroll to the **Security** section. You'll see "SGH - Smart Gallery Hub was blocked". Click **Open Anyway**:
 
-Smart Gallery Hub uses a local vision model via [Ollama](https://ollama.com/) — same as the major desktop LLM apps. The benefit: AI runs entirely on your machine. Your images never leave your computer.
+![Privacy & Security panel with SGH blocked notice and Open Anyway button](/tutorials/getting-started/macos-03-open-anyway.png)
 
-1. Open [ollama.com/download](https://ollama.com/download) and install Ollama for your platform. The installer is small (~500 MB).
-2. After install, Ollama runs as a background service on `http://localhost:11434`. You don't need to interact with it; SGH talks to it directly.
-3. Pull a vision model. From a terminal:
+**d.** macOS asks one more time. Click **Open Anyway**:
 
-   ```
-   ollama pull llava
-   ```
+![Second confirmation dialog asking to open SGH](/tutorials/getting-started/macos-04-confirm-open.png)
 
-   `llava` is a solid general-purpose vision model (~4 GB). On modern CPUs it processes ~1 image every 5–10 seconds; with a discrete GPU it's much faster.
+SGH launches. You only need to do this once.
 
-   Smaller, faster alternative: `ollama pull moondream` (~1.5 GB). Faster but slightly less detailed captions.
+## 2. Install Ollama
 
-4. Back in SGH, open **Settings → AI** and pick your model from the dropdown. SGH auto-detects what Ollama has pulled.
+Install [Ollama](https://ollama.com/download) for your platform.
 
-## Step 4: Add your first workspace
+SGH auto-downloads the vision + extract models on first run. Confirm in **Settings → AI Model Configs**:
 
-Workspaces are folders SGH watches. Each workspace carries a **content type** that tells the AI which caption format to write.
+![AI Model Configs panel](/tutorials/getting-started/02-ai-config.png)
 
-1. Click **+ Add folder** at the top of the workspace panel.
-2. Browse to a folder of test photos.
-3. Pick a content type from the popover:
+## 3. Add a folder
 
-![Select content type dropdown showing Default, Commercial, Editorial, AI Generated, and Illustration options with their descriptions](/tutorials/getting-started/01-content-type-select.png)
+Click **+ Add folder** → browse to your folder → pick a content type:
 
-   - **Default** — no type lock; freely switch later.
-   - **Commercial** — typical stock work, no identifiable people, no logos. AI writes marketable titles + concept keywords.
-   - **Editorial** — news / documentary / identifiable people. AI writes `DATE - CITY, COUNTRY:` factual captions, auto-filling location from GPS when available.
-   - **AI Generated** — anything you produced with a generative AI model. Must be disclosed to agencies; SGH flags so agencies that reject AI content can be filtered out.
-   - **Illustration** — vector or hand-drawn.
+![Content type popover](/tutorials/getting-started/01-content-type-select.png)
 
-4. Click **Add**. SGH scans the folder and shows thumbnails in the grid view:
+| Type | When |
+|---|---|
+| **Commercial** | No people, no logos |
+| **Editorial** | News / documentary (GPS auto-fills caption) |
+| **AI Generated** | Made with generative AI |
+| **Illustration** | Vector / hand-drawn |
 
-![Smart Gallery Hub workspace view with the Commercial / Making Dumplings folder selected, agency status bar at the top, and a grid of imported photos](/tutorials/getting-started/02-workspace-view.png)
+![Workspace view](/tutorials/getting-started/02-workspace-view.png)
 
-For your first run, start with **Commercial** if you have a typical stock folder, or **Editorial** if you have travel / street / news shots with GPS data.
+## 4. Set AI hints (optional)
 
-## Step 5: Set folder-level AI hints (optional but recommended)
+![AI Hints panel](/tutorials/getting-started/03-ai-hints.png)
 
-Before running AI, give the model a few hints about the folder. Hints apply to every image in the batch and dramatically improve description and keyword accuracy.
+Add a Category, must-have Keywords, or Location to sharpen the AI's output for the whole batch.
 
-![AI Hints panel with Category set to Food and Drink + Objects, Keywords filled with handmake/dumping/homemade, Location field, and a GPS Detect button](/tutorials/getting-started/03-ai-hints.png)
+## 5. Run AI
 
-Useful hint fields:
+**Operate → AI**. Click any thumbnail to review:
 
-- **Category** — pick the agency category the folder should fall under. SGH auto-applies it to every image.
-- **Prefix** — text prepended to every title/description (e.g. a brand name or project name).
-- **Description / Keywords** — extra context the AI should know about (e.g. `handmade, homemade dumplings, kitchen scene`). The model weaves these into its output.
-- **Location** — type a `City, Country` to force editorial location, or click **Detect** to read GPS from the first image's EXIF.
+![Metadata panel](/tutorials/getting-started/05-metadata-panel.png)
 
-You can skip this step and run AI on bare images, but adding a 30-second hint pass typically improves keyword precision more than any prompt tweak.
+Edit the title/keywords if generic.
 
-## Step 6: Run AI metadata
+## 6. Submit
 
-With the workspace selected:
+**Operate → Adobestock / Shutterstock / Getty**:
 
-1. Click the **Operate** panel (or the bottom action bar on mobile).
-2. Click the **AI** action button. The button shows the file count, e.g. `AI (143)`.
+![Operate panel](/tutorials/getting-started/04-operate-panel.png)
 
-SGH processes images one at a time (or in parallel if your hardware supports it). For each image, you'll see:
+Smart Submit skips already-submitted files, skips files without metadata, retries failures, and resumes after interruptions.
 
-- A **green AI badge** appear on the thumbnail when metadata is generated.
-- Title, description, and keywords populate the metadata panel on the right when you click the image.
+You need agency credentials first → [Set up your agency credentials](/tutorials/credential-setup/).
 
-Expect ~5–10 seconds per image on CPU, ~1–2 seconds on GPU. A 100-image folder is ~10 minutes on CPU; ~3 minutes on GPU.
+## 7. Check approval
 
-## Step 7: Review and edit
+Open a submitted image's **Operate** tab → **Check Approval**:
 
-AI gets you 70% of the way. The remaining 30% is human judgement — and it's where the keyword quality that drives sales comes from.
+![Operate tab with Check Approval button](/tutorials/getting-started/06-operate-submit.png)
 
-For each image:
+Status flows back into the workspace status strip.
 
-- **Title:** read it. Edit if generic. Stock buyers search title; vague titles get buried.
-- **Description:** for commercial, evocative; for editorial, factual.
-- **Keywords:** strip duplicates and synonyms. Add 5–10 concept / industry / demographic keywords the AI couldn't see (`Q2 planning`, `hybrid work`, `Gen Z`, etc.).
+## 8. Fetch earnings
 
-Use the **multi-select + bulk edit** tools at the top of the keyword editor to do this fast: select 10 similar images, add a shared concept keyword, done in seconds.
+Open **MS-Report** tab → **Fetch Earnings** (or **Backfill History** for past data):
 
-## Step 8: Write metadata into the files
+![MS-Report tab](/tutorials/getting-started/07-ms-report.png)
 
-Once metadata is clean:
-
-1. Select all images in the workspace.
-2. Click **Operate → Data**.
-3. SGH writes the metadata into each file's IPTC and XMP fields.
-
-This step matters because:
-
-- The metadata survives if you move the file, rename the folder, or migrate to another tool.
-- Most agency upload endpoints (Adobe SFTP especially) read embedded IPTC, so you skip the "fill metadata per file" step in the contributor portal.
-
-On the **Free tier**, the first 30 keywords per image are written to the file. On **Pro**, up to 50.
-
-## Step 9: What's next
-
-You now have:
-
-- A workspace tagged with a content type.
-- AI-generated metadata reviewed and edited.
-- Metadata written into your photo files.
-
-What you don't have yet: the photos in front of an agency reviewer. That's the submission half of the workflow.
-
-### Two paths from here
-
-- **Free path:** export your library to a CSV in each agency's exact format (`Operate → Export`). Upload manually via each contributor portal.
-- **Pro path:** add your Adobe / Shutterstock / Getty credentials and let SGH do the upload. The Operate panel exposes one button per agency, each showing the file count and current state:
-
-  ![Operate panel with four action rows: AI Operations (Ready · AI 143), Adobestock (Ready · Submit 143), Shutterstock (Ready · Submit 143), Getty / iStock (Ready · Submit 143)](/tutorials/getting-started/04-operate-panel.png)
-
-  Approval status comes back into the **Approval** tab.
-
-The next tutorial — [Set up your agency credentials](/tutorials/credential-setup/) — walks through the Pro path, agency by agency.
-
----
-
-*Ready to go further? [Browse all features](/#features), [read the blog](/blog/), or [download the app](/download) if you haven't already.*
+Filter by Adobe / Shutter / Getty to see who pays most.
