@@ -1,0 +1,85 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const tutorials = await getCollection('tutorials', ({ data }) => !data.draft);
+  return tutorials.map((t) => ({ params: { slug: t.id }, props: { tutorial: t } }));
+}
+
+type Props = { tutorial: CollectionEntry<'tutorials'> };
+const { tutorial } = Astro.props;
+const { Content } = await render(tutorial);
+
+const dateFmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: tutorial.data.title,
+  description: tutorial.data.description,
+  ...(tutorial.data.duration ? { totalTime: tutorial.data.duration } : {}),
+  ...(tutorial.data.updatedDate
+    ? { dateModified: tutorial.data.updatedDate.toISOString() }
+    : {}),
+};
+
+const levelStyle: Record<string, string> = {
+  beginner: 'bg-green-50 text-green-700 border-green-200',
+  intermediate: 'bg-yellow-50 text-yellow-800 border-yellow-200',
+  advanced: 'bg-red-50 text-red-700 border-red-200',
+};
+---
+
+<BaseLayout
+  title={`${tutorial.data.title} | Smart Gallery Hub tutorial`}
+  description={tutorial.data.description}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleLd)} />
+
+  <article class="max-w-3xl mx-auto px-4 pt-20 pb-20">
+    <p class="text-sm font-semibold text-brand-600 uppercase tracking-wide">
+      <a href="/tutorials/" class="hover:underline">&larr; All tutorials</a>
+    </p>
+    <header class="mt-4">
+      <h1 class="text-3xl sm:text-5xl font-bold text-gray-900 leading-tight">{tutorial.data.title}</h1>
+      <div class="mt-5 flex flex-wrap items-center gap-3 text-sm">
+        <span class={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${levelStyle[tutorial.data.level]}`}>
+          {tutorial.data.level}
+        </span>
+        {tutorial.data.duration && (
+          <span class="text-gray-500">&#x23F1; {tutorial.data.duration}</span>
+        )}
+        {tutorial.data.updatedDate && (
+          <span class="text-gray-500">Updated {dateFmt(tutorial.data.updatedDate)}</span>
+        )}
+      </div>
+    </header>
+
+    <div
+      class="mt-10 text-gray-800 leading-relaxed
+             [&_h2]:text-2xl [&_h2]:sm:text-3xl [&_h2]:font-bold [&_h2]:text-gray-900 [&_h2]:mt-12 [&_h2]:mb-4
+             [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-gray-900 [&_h3]:mt-8 [&_h3]:mb-3
+             [&_p]:mt-4 [&_p]:leading-relaxed
+             [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4 [&_ul]:space-y-2
+             [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4 [&_ol]:space-y-2
+             [&_li]:leading-relaxed
+             [&_a]:text-brand-600 [&_a]:underline [&_a]:hover:text-brand-700
+             [&_blockquote]:border-l-4 [&_blockquote]:border-brand-600 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-gray-700 [&_blockquote]:my-6
+             [&_code]:bg-gray-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-sm [&_code]:font-mono
+             [&_pre]:bg-gray-900 [&_pre]:text-gray-100 [&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:overflow-x-auto [&_pre]:my-6
+             [&_pre_code]:bg-transparent [&_pre_code]:px-0 [&_pre_code]:py-0 [&_pre_code]:text-gray-100
+             [&_hr]:my-10 [&_hr]:border-gray-200
+             [&_strong]:text-gray-900 [&_em]:text-gray-700"
+    >
+      <Content />
+    </div>
+
+    <div class="mt-16 pt-8 border-t border-gray-200">
+      <p class="text-sm text-gray-500">
+        <a href="/tutorials/" class="text-brand-600 hover:text-brand-700 hover:underline">&larr; More tutorials</a>
+      </p>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const tutorials = (await getCollection('tutorials', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const levelStyle: Record<string, string> = {
+  beginner: 'bg-green-50 text-green-700 border-green-200',
+  intermediate: 'bg-yellow-50 text-yellow-800 border-yellow-200',
+  advanced: 'bg-red-50 text-red-700 border-red-200',
+};
+---
+
+<BaseLayout
+  title="Smart Gallery Hub tutorials — install, set up, automate"
+  description="Step-by-step tutorials for Smart Gallery Hub: installation, local AI setup, content-type workspaces, agency submission, approval tracking, and earnings."
+>
+  <section class="max-w-4xl mx-auto px-4 pt-20 pb-12">
+    <p class="text-sm font-semibold text-brand-600 uppercase tracking-wide">Tutorials</p>
+    <h1 class="mt-2 text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
+      Learn Smart Gallery Hub, one step at a time.
+    </h1>
+    <p class="mt-4 text-lg text-gray-600 max-w-2xl">
+      Step-by-step walkthroughs for installing the app, plugging in local AI, organising your library, submitting to agencies, and tracking what sells. Each tutorial is self-contained &mdash; jump in wherever you are.
+    </p>
+  </section>
+
+  <section class="max-w-4xl mx-auto px-4 pb-20">
+    {tutorials.length === 0 ? (
+      <p class="text-gray-500">No tutorials yet. Check back soon.</p>
+    ) : (
+      <div class="space-y-6">
+        {tutorials.map((t) => (
+          <a
+            href={`/tutorials/${t.id}/`}
+            class="group block rounded-xl border border-gray-200 bg-white p-6 hover:border-brand-300 hover:shadow-md transition-all"
+          >
+            <div class="flex items-center gap-3 mb-3">
+              <span class={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${levelStyle[t.data.level]}`}>
+                {t.data.level}
+              </span>
+              {t.data.duration && (
+                <span class="text-xs text-gray-500">&#x23F1; {t.data.duration}</span>
+              )}
+              <span class="text-xs text-gray-400 ml-auto">Tutorial {String(t.data.order).padStart(2, '0')}</span>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 group-hover:text-brand-700 transition-colors leading-tight">
+              {t.data.title}
+            </h2>
+            <p class="mt-3 text-gray-700 leading-relaxed">{t.data.description}</p>
+            <p class="mt-4 text-sm font-semibold text-brand-600 group-hover:text-brand-700">Start tutorial &rarr;</p>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>
