@@ -62,25 +62,45 @@ Smart Gallery Hub uses a local vision model via [Ollama](https://ollama.com/) �
 
 Workspaces are folders SGH watches. Each workspace carries a **content type** that tells the AI which caption format to write.
 
-1. Click **+ Add workspace** (top-left).
+1. Click **+ Add folder** at the top of the workspace panel.
 2. Browse to a folder of test photos.
-3. Pick a content type:
+3. Pick a content type from the popover:
+
+![Select content type dropdown showing Default, Commercial, Editorial, AI Generated, and Illustration options with their descriptions](/tutorials/getting-started/01-content-type-select.png)
+
+   - **Default** — no type lock; freely switch later.
    - **Commercial** — typical stock work, no identifiable people, no logos. AI writes marketable titles + concept keywords.
    - **Editorial** — news / documentary / identifiable people. AI writes `DATE - CITY, COUNTRY:` factual captions, auto-filling location from GPS when available.
-   - **AI Generated** — anything you produced with a generative AI model. Must be disclosed to agencies.
+   - **AI Generated** — anything you produced with a generative AI model. Must be disclosed to agencies; SGH flags so agencies that reject AI content can be filtered out.
    - **Illustration** — vector or hand-drawn.
-4. Click **Add**. SGH scans the folder and shows thumbnails in the grid view.
+
+4. Click **Add**. SGH scans the folder and shows thumbnails in the grid view:
+
+![Smart Gallery Hub workspace view with the Commercial / Making Dumplings folder selected, agency status bar at the top, and a grid of imported photos](/tutorials/getting-started/02-workspace-view.png)
 
 For your first run, start with **Commercial** if you have a typical stock folder, or **Editorial** if you have travel / street / news shots with GPS data.
 
-## Step 5: Run AI metadata
+## Step 5: Set folder-level AI hints (optional but recommended)
+
+Before running AI, give the model a few hints about the folder. Hints apply to every image in the batch and dramatically improve description and keyword accuracy.
+
+![AI Hints panel with Category set to Food and Drink + Objects, Keywords filled with handmake/dumping/homemade, Location field, and a GPS Detect button](/tutorials/getting-started/03-ai-hints.png)
+
+Useful hint fields:
+
+- **Category** — pick the agency category the folder should fall under. SGH auto-applies it to every image.
+- **Prefix** — text prepended to every title/description (e.g. a brand name or project name).
+- **Description / Keywords** — extra context the AI should know about (e.g. `handmade, homemade dumplings, kitchen scene`). The model weaves these into its output.
+- **Location** — type a `City, Country` to force editorial location, or click **Detect** to read GPS from the first image's EXIF.
+
+You can skip this step and run AI on bare images, but adding a 30-second hint pass typically improves keyword precision more than any prompt tweak.
+
+## Step 6: Run AI metadata
 
 With the workspace selected:
 
-1. Click **Operate** in the right panel (or the bottom action bar on mobile).
-2. Click the **AI** action button.
-3. (Optional) Set folder-level hints — a project context phrase, a forced location, must-have keywords. Hints apply to every image in the batch and dramatically improve accuracy.
-4. Click **Run**.
+1. Click the **Operate** panel (or the bottom action bar on mobile).
+2. Click the **AI** action button. The button shows the file count, e.g. `AI (143)`.
 
 SGH processes images one at a time (or in parallel if your hardware supports it). For each image, you'll see:
 
@@ -89,7 +109,7 @@ SGH processes images one at a time (or in parallel if your hardware supports it)
 
 Expect ~5–10 seconds per image on CPU, ~1–2 seconds on GPU. A 100-image folder is ~10 minutes on CPU; ~3 minutes on GPU.
 
-## Step 6: Review and edit
+## Step 7: Review and edit
 
 AI gets you 70% of the way. The remaining 30% is human judgement — and it's where the keyword quality that drives sales comes from.
 
@@ -101,7 +121,7 @@ For each image:
 
 Use the **multi-select + bulk edit** tools at the top of the keyword editor to do this fast: select 10 similar images, add a shared concept keyword, done in seconds.
 
-## Step 7: Write metadata into the files
+## Step 8: Write metadata into the files
 
 Once metadata is clean:
 
@@ -116,7 +136,7 @@ This step matters because:
 
 On the **Free tier**, the first 30 keywords per image are written to the file. On **Pro**, up to 50.
 
-## Step 8: What's next
+## Step 9: What's next
 
 You now have:
 
@@ -129,9 +149,13 @@ What you don't have yet: the photos in front of an agency reviewer. That's the s
 ### Two paths from here
 
 - **Free path:** export your library to a CSV in each agency's exact format (`Operate → Export`). Upload manually via each contributor portal.
-- **Pro path:** add your Adobe / Shutterstock / Getty credentials in **Settings → Submission Credentials**, then click **Operate → Adobe** (or Shutter, or Getty) to upload and file submission automatically. Approval status comes back into the **Approval** tab.
+- **Pro path:** add your Adobe / Shutterstock / Getty credentials and let SGH do the upload. The Operate panel exposes one button per agency, each showing the file count and current state:
 
-The submission tutorial walks through both paths in detail.
+  ![Operate panel with four action rows: AI Operations (Ready · AI 143), Adobestock (Ready · Submit 143), Shutterstock (Ready · Submit 143), Getty / iStock (Ready · Submit 143)](/tutorials/getting-started/04-operate-panel.png)
+
+  Approval status comes back into the **Approval** tab.
+
+The next tutorial — [Set up your agency credentials](/tutorials/credential-setup/) — walks through the Pro path, agency by agency.
 
 ---
 
