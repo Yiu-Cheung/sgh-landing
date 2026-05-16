@@ -38,6 +38,10 @@ const faq = [
     q: 'Which platforms does Smart Gallery Hub run on?',
     a: 'Windows 10 or later (64-bit) and macOS (Apple Silicon and Intel, separate builds). Same feature set on both platforms. Mobile and tablet access is available via the built-in remote web UI, so you can review your library from your phone while your desktop keeps processing.',
   },
+  {
+    q: 'Why is my remote access (mobile / browser) not working?',
+    a: 'Run through this checklist: (1) Settings → Server → Enable remote access is toggled on, and you clicked Restart afterwards — the change only takes effect after restart. (2) Authentication → Require password is set, and you remember the password. (3) On the same Wi-Fi as your desktop, use the LAN URL (https://192.168.x.x:5173). From outside, use the WAN URL — that needs port 5173 forwarded on your router (SGH tries UPnP automatically, but some routers have UPnP disabled). (4) The first time you open the URL, your browser will warn about a self-signed HTTPS certificate — click Advanced → Continue to bypass it once. (5) On Windows, Windows Defender Firewall may block port 5173 the first time SGH binds it — allow it when the prompt appears. If WAN still fails, claim a free DDNS subdomain (Settings → Server → Claim a free DDNS) so the address stays stable even if your home IP changes.',
+  },
 ];
 
 const faqLd = {
