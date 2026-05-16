@@ -16,7 +16,7 @@ const POLAR_LIFETIME = 'https://buy.polar.sh/polar_cl_sP7CCTfGJkuLVDJWgGxhDSf0Mt
 const faq = [
   {
     q: 'Which stock photo agencies does Smart Gallery Hub submit to?',
-    a: 'Adobe Stock, Shutterstock, and Getty Images / iStock. SGH uploads files via each agency’s native channel (SFTP for Adobe, FTPS for Shutterstock, S3 for Getty) and then drives the contributor portal to file the submission for you.',
+    a: 'Auto-submission covers Adobe Stock, Shutterstock, and Getty Images / iStock — SGH uploads via each agency’s native channel and drives the contributor portal to file the submission for you. For every other agency (Alamy, Dreamstime, Pond5, 123RF, EyeEm, etc.), the AI-generated metadata is written directly into each file’s IPTC and XMP fields. That means you can upload the same JPEG to any other agency manually (or with a third-party uploader) and the title, description, and keywords come along with the file — no re-keywording needed.',
   },
   {
     q: 'Do I need a paid AI subscription to use Smart Gallery Hub?',
@@ -237,8 +237,8 @@ const faqLd = {
 
         <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x1F4E6;</div>
-          <h3 class="font-semibold text-gray-900">Export &amp; no duplicates</h3>
-          <p class="mt-2 text-sm text-gray-600">Export a CSV in each agency&rsquo;s exact format, or save the metadata straight into the image file. Already-submitted files are remembered &mdash; designed to prevent duplicate submissions.</p>
+          <h3 class="font-semibold text-gray-900">Metadata travels with the file</h3>
+          <p class="mt-2 text-sm text-gray-600">AI title, description, and keywords are written straight into each photo&rsquo;s IPTC/XMP fields. Upload the same JPEG to any other agency &mdash; Alamy, Dreamstime, Pond5, 123RF &mdash; and they read the metadata too. Already-submitted files are EXIF-stamped to help prevent duplicates.</p>
         </div>
 
         <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
