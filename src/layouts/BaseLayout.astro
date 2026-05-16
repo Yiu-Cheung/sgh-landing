@@ -12,7 +12,7 @@ interface Props {
 }
 
 const {
-  title = 'Smart Gallery Hub — AI Metadata + Auto-Submit to Adobe Stock, Shutterstock & Getty | Microstock Workflow Software',
+  title = 'Smart Gallery Hub — Microstock Tools, One-Click Auto-Submit, Unlimited AI Metadata',
   description = 'Generate AI keywords, titles, and descriptions for thousands of stock photos and videos. Auto-submit to Adobe Stock, Shutterstock, and Getty Images / iStock — all from your desktop. AI runs locally on your machine. Free forever tier. Windows + Mac.',
 } = Astro.props;
 
@@ -72,8 +72,10 @@ const softwareApplicationLd = {
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -105,6 +107,7 @@ const softwareApplicationLd = {
           <a href="/tutorials/" class="hover:text-gray-900 transition-colors">Tutorials</a>
           <a href="/download" class="hover:text-gray-900 transition-colors">Download</a>
           <a href="mailto:support@smartgalleryhub.com" class="hover:text-gray-900 transition-colors">Support</a>
+          <a href="/#faq" class="hover:text-gray-900 transition-colors">FAQ</a>
           <a
             href="https://buy.polar.sh/polar_cl_F7zNynx5wcSfUm96w3eklh2cXR10EYJPdIGMB0rJnYg"
             class="bg-brand-600 text-white px-4 py-2 rounded-lg hover:bg-brand-700 transition-colors"
