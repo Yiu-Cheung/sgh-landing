@@ -1,0 +1,18 @@
+name = "dl-proxy"
+main = "src/index.ts"
+compatibility_date = "2026-04-01"
+account_id = "48162cf558160d52b80726dbb6231520"
+
+# Route already configured on the existing worker — declared here so future
+# `wrangler deploy` doesn't drop it.
+[[routes]]
+pattern = "dl.smartgalleryhub.com/*"
+zone_name = "smartgalleryhub.com"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "sgh-downloads"
+
+[[kv_namespaces]]
+binding = "DL_COUNTERS"
+id = "769e126f4aa1481f88beaafb8a1033e2"
