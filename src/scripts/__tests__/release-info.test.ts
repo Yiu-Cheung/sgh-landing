@@ -9,6 +9,7 @@ import { describe, it, expect } from "vitest";
 import {
   validateUpdateJson,
   applyUpdate,
+  formatReleaseDate,
   type UpdateJson,
 } from "../release-info";
 
@@ -109,6 +110,56 @@ describe("validateUpdateJson — wrong types / missing fields", () => {
 
   it("rejects strings", () => {
     expect(validateUpdateJson("not json")).toBeNull();
+  });
+});
+
+describe("formatReleaseDate", () => {
+  it("formats a UTC ISO timestamp as '15 July 2026'", () => {
+    expect(formatReleaseDate("2026-07-15T00:00:00Z")).toBe("15 July 2026");
+  });
+
+  it("formats an offset-carrying ISO timestamp in UTC (no local drift)", () => {
+    // 2026-07-16T01:00+08:00 === 2026-07-15T17:00Z → UTC day is the 15th.
+    expect(formatReleaseDate("2026-07-16T01:00:00+08:00")).toBe("15 July 2026");
+  });
+
+  it("formats a date-only string as UTC midnight", () => {
+    expect(formatReleaseDate("2026-07-15")).toBe("15 July 2026");
+  });
+
+  it("returns empty string for an unparseable input", () => {
+    expect(formatReleaseDate("not a date")).toBe("");
+  });
+});
+
+describe("applyUpdate — release date display", () => {
+  it("sets [data-sgh-date] text to the formatted release date", () => {
+    const doc = document.implementation.createHTMLDocument();
+    const span = doc.createElement("span");
+    span.setAttribute("data-sgh-date", "");
+    span.textContent = "old date";
+    doc.body.appendChild(span);
+
+    applyUpdate(VALID_INPUT, doc);
+
+    // VALID_INPUT.releasedAt === "2026-04-25T18:30:00Z"
+    expect(span.textContent).toBe("25 April 2026");
+  });
+
+  it("updates all elements carrying the attribute", () => {
+    const doc = document.implementation.createHTMLDocument();
+    for (let i = 0; i < 2; i++) {
+      const el = doc.createElement("span");
+      el.setAttribute("data-sgh-date", "");
+      el.textContent = "fallback";
+      doc.body.appendChild(el);
+    }
+
+    applyUpdate(VALID_INPUT, doc);
+
+    doc.querySelectorAll("[data-sgh-date]").forEach((el) => {
+      expect(el.textContent).toBe("25 April 2026");
+    });
   });
 });
 

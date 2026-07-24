@@ -61,8 +61,34 @@ export function validateUpdateJson(data: unknown): UpdateJson | null {
 }
 
 /**
+ * Formats an ISO 8601 release timestamp into a human-friendly date like
+ * "15 July 2026".
+ *
+ * Pinned to UTC on purpose: the build-time render runs in Node (CI, UTC) and
+ * the runtime render runs in the visitor's browser (arbitrary timezone). A
+ * floating local timezone would render a different day across the midnight
+ * boundary, so the two would disagree and the date would visibly flash on load.
+ * UTC makes both deterministic.
+ *
+ * Returns "" for an unparseable input so the caller renders nothing rather than
+ * "Invalid Date".
+ */
+export function formatReleaseDate(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(d);
+}
+
+/**
  * DOM mutator. Applies validated update info to the document:
  *   - Sets text content of every [data-sgh-version] element to "v{version}".
+ *   - Sets text content of every [data-sgh-date] element to the formatted
+ *     release date (see formatReleaseDate), or "" when unparseable.
  *   - Replaces children of [data-sgh-highlights] with either:
  *       - <li> items per highlight (when non-empty), OR
  *       - the maintenance-release fallback copy (when empty).
@@ -81,6 +107,11 @@ export function applyUpdate(data: UpdateJson, doc: Document = document): void {
   const versionLabel = `v${data.version}`;
   doc.querySelectorAll<HTMLElement>("[data-sgh-version]").forEach((el) => {
     el.textContent = versionLabel;
+  });
+
+  const formattedDate = formatReleaseDate(data.releasedAt);
+  doc.querySelectorAll<HTMLElement>("[data-sgh-date]").forEach((el) => {
+    el.textContent = formattedDate;
   });
 
   const highlightsContainers = doc.querySelectorAll<HTMLElement>(
