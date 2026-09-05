@@ -10,6 +10,25 @@ interface Env {
   DL_COUNTERS: KVNamespace;
 }
 
+// The landing page reads latest/update.json from the browser, so responses
+// need an Access-Control-Allow-Origin header. The bucket's own CORS rules do
+// not apply here — this worker builds its own response headers, bypassing
+// them entirely.
+const ALLOWED_ORIGINS = new Set([
+  'https://smartgalleryhub.com',
+  'https://www.smartgalleryhub.com',
+]);
+
+function applyCors(headers: Headers, request: Request): void {
+  // Vary is set whether or not the origin matched, so a cached response for
+  // one origin is never handed to another.
+  headers.append('vary', 'Origin');
+  const origin = request.headers.get('origin');
+  if (origin && ALLOWED_ORIGINS.has(origin)) {
+    headers.set('access-control-allow-origin', origin);
+  }
+}
+
 function platformFromKey(key: string): 'windows' | 'mac-arm64' | 'mac-intel' | 'mac' | null {
   const k = key.toLowerCase();
   if (k.endsWith('.exe') || k.includes('setup')) return 'windows';
@@ -56,6 +75,7 @@ export default {
     headers.set('etag', obj.httpEtag);
     headers.set('cache-control', 'public, max-age=300');
     headers.set('accept-ranges', 'bytes');
+    applyCors(headers, request);
 
     const isRangeRequest = !!request.headers.get('range');
     // R2 returns `range` only when it actually served a range; treat the
