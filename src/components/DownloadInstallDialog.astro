@@ -1,0 +1,159 @@
+---
+// Pre-download install dialog for /download (openspec change
+// add-download-install-dialog, design D4/D6). One native <dialog>, a Windows
+// and a Mac panel, one shared footer. Wiring lives in
+// src/scripts/download-dialog.ts; the hooks below (id="dl-dialog",
+// data-dl-panel, data-dl-close, data-dl-primary, id'd panel headings) are its
+// data contract. Without JS the dialog never opens and the cards download
+// directly.
+import SmartScreenIllustration from './SmartScreenIllustration.astro';
+
+// Shared class strings so every step stays one readable block.
+const head = 'sticky top-0 z-10 border-b border-gray-200 bg-white px-6 pt-[22px] pb-4';
+const heading = 'text-xl font-bold text-gray-900';
+const lead = 'mt-1.5 pr-6 text-sm leading-normal text-gray-600';
+const close =
+  'absolute top-4 right-4 cursor-pointer text-[22px] leading-none text-gray-500 hover:text-gray-900';
+const body = 'bg-gray-50 px-6 py-5';
+const steps = 'grid grid-cols-1 gap-3.5 sm:grid-cols-2';
+const step = 'flex flex-col rounded-xl border border-gray-200 bg-white p-3.5';
+const wide = `${step} sm:col-span-2`;
+const text = 'text-sm leading-normal text-gray-700';
+const num =
+  'mr-2 inline-grid size-[22px] place-items-center rounded-full bg-brand-600 align-[1px] text-xs font-bold text-white';
+const shot = 'mt-3 grid flex-1 place-items-center rounded-lg bg-gray-100 p-3';
+const img = 'block h-auto max-w-full rounded-md shadow-[0_1px_4px_rgb(0_0_0/0.15)]';
+const IMG_DIR = '/tutorials/getting-started';
+---
+
+<dialog id="dl-dialog" class="dl-dialog">
+  <div class="dl-inner">
+    <!-- Windows panel -->
+    <section data-dl-panel="win" class="dl-panel" hidden>
+      <div class={head}>
+        <h2 id="dl-h-win" class={heading}>Before you install on Windows</h2>
+        <p class={lead}>SGH isn't code-signed yet, so Windows shows a blue warning the first time you run the installer. This is expected. Two clicks get you past it:</p>
+        <button type="button" class={close} data-dl-close aria-label="Close">&times;</button>
+      </div>
+      <div class={body}>
+        <ol class={steps} role="list">
+          <li class={step}>
+            <p class={text}><span class={num} aria-hidden="true">1</span>Double-click <code>SGH-Setup.exe</code>. Windows shows <em>"Windows protected your PC"</em>. Click <strong>More info</strong>.</p>
+            <div class={shot}><SmartScreenIllustration state="more-info" /></div>
+          </li>
+          <li class={step}>
+            <p class={text}><span class={num} aria-hidden="true">2</span>Click <strong>Run anyway</strong>.</p>
+            <div class={shot}><SmartScreenIllustration state="run-anyway" /></div>
+          </li>
+          <li class={wide}>
+            <p class={text}><span class={num} aria-hidden="true">3</span>Follow the installer. SGH opens when it finishes.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Mac panel -->
+    <section data-dl-panel="mac" class="dl-panel" hidden>
+      <div class={head}>
+        <h2 id="dl-h-mac" class={heading}>Before you install on Mac</h2>
+        <p class={lead}>SGH isn't notarised by Apple yet, so macOS blocks it the first time you open it. This is expected. Here's how to allow it:</p>
+        <p class="mt-1.5 pr-6 text-xs leading-normal text-gray-500">Screens shown are from macOS 15. Older versions look slightly different, but the Privacy &amp; Security → Open Anyway step is the same.</p>
+        <button type="button" class={close} data-dl-close aria-label="Close">&times;</button>
+      </div>
+      <div class={body}>
+        <ol class={steps} role="list">
+          <li class={wide}>
+            <p class={text}><span class={num} aria-hidden="true">1</span>Open the downloaded DMG and drag <strong>SGH - Smart Gallery Hub</strong> into <strong>Applications</strong>.</p>
+          </li>
+          <li class={step}>
+            <p class={text}><span class={num} aria-hidden="true">2</span>Double-click the app. macOS says it was <em>"Not Opened"</em>. Click <strong>Done</strong> — <span class="font-semibold text-red-700">not Move to Bin</span>.</p>
+            <div class={shot}>
+              <img src={`${IMG_DIR}/macos-01-not-opened.png`} width="246" height="252" loading="lazy" class={img} alt="macOS dialog: SGH - Smart Gallery Hub Not Opened, with Done and Move to Bin buttons" />
+            </div>
+          </li>
+          <li class={step}>
+            <p class={text}><span class={num} aria-hidden="true">3</span>Open the Apple menu → <strong>System Settings…</strong></p>
+            <div class={shot}>
+              <img src={`${IMG_DIR}/macos-02-system-settings.png`} width="285" height="121" loading="lazy" class={img} alt="Apple menu showing System Settings" />
+            </div>
+          </li>
+          <li class={wide}>
+            <p class={text}><span class={num} aria-hidden="true">4</span>Go to <strong>Privacy &amp; Security</strong> and scroll to <strong>Security</strong>. Next to <em>"SGH - Smart Gallery Hub was blocked"</em>, click <strong>Open Anyway</strong>.</p>
+            <div class={shot}>
+              <img src={`${IMG_DIR}/macos-03-open-anyway.png`} width="701" height="223" loading="lazy" class={img} alt="Privacy & Security panel with the SGH blocked notice and an Open Anyway button" />
+            </div>
+          </li>
+          <li class={wide}>
+            <p class={text}><span class={num} aria-hidden="true">5</span>macOS asks once more. Click <strong>Open Anyway</strong> — if asked, enter your Mac password or use Touch ID. SGH opens.</p>
+            <div class={shot}>
+              <img src={`${IMG_DIR}/macos-04-confirm-open.png`} width="251" height="332" loading="lazy" class={img} alt="Confirmation dialog with an Open Anyway button" />
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Shared footer -->
+    <div class="flex shrink-0 flex-wrap items-center gap-3 border-t border-gray-200 bg-white px-6 py-3.5">
+      <a href="/tutorials/getting-started/" target="_blank" rel="noopener" class="mr-auto text-[13px] text-brand-600 hover:text-brand-700 hover:underline">Full install guide ↗</a>
+      <button type="button" data-dl-close class="cursor-pointer rounded-lg border border-gray-200 bg-white px-4 py-[9px] text-sm font-semibold text-gray-700 hover:bg-gray-50">Cancel</button>
+      <button type="button" data-dl-primary class="cursor-pointer rounded-lg bg-brand-600 px-[18px] py-2.5 text-sm font-semibold text-white hover:bg-brand-700">I understand — download</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  import { initDownloadDialog } from '../scripts/download-dialog';
+
+  initDownloadDialog(document);
+</script>
+
+<style>
+  .dl-dialog {
+    /* Tailwind preflight sets `* { margin: 0 }`, which would pin the modal to
+       the top-left; restore the UA's centring. */
+    margin: auto;
+    /* Zero padding + all content in .dl-inner: only a backdrop hit has the
+       <dialog> itself as event target (backdrop detection in download-dialog.ts). */
+    padding: 0;
+    border: none;
+    border-radius: 16px;
+    width: min(760px, 100vw - 32px);
+    max-width: calc(100vw - 32px);
+    max-height: calc(100dvh - 32px);
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 24px 64px rgb(0 0 0 / 0.25);
+  }
+  /* `display` ONLY on [open]: a rule on bare `dialog` would beat the UA's
+     `dialog:not([open]) { display: none }` and render the closed dialog. */
+  .dl-dialog[open] {
+    display: flex;
+    flex-direction: column;
+  }
+  .dl-dialog::backdrop {
+    background: rgb(17 24 39 / 0.55);
+  }
+  .dl-inner {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  /* No `display` on the panel: it relies on [hidden]. The panel is the scroll
+     container (its sticky head stays put while the steps scroll), so the
+     footer stays reachable inside max-height. */
+  .dl-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+</style>
+
+<style is:global>
+  /* showModal() does not lock background scroll; scoped styles cannot reach body. */
+  body:has(dialog[open]) {
+    overflow: hidden;
+  }
+</style>
