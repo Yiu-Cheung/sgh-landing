@@ -1,0 +1,93 @@
+---
+// HTML/CSS recreation of the Windows Defender SmartScreen dialog, used in the
+// Windows panel of DownloadInstallDialog. Not a screenshot: one recreation,
+// two states, so the copy exists once.
+//   - 'more-info':  collapsed dialog, "More info" highlighted (step 1)
+//   - 'run-anyway': expanded dialog with App / Publisher, "Run anyway" highlighted (step 2)
+interface Props {
+  state: 'more-info' | 'run-anyway';
+}
+
+const { state } = Astro.props;
+
+const label =
+  state === 'more-info'
+    ? 'Illustration of the Windows SmartScreen warning "Windows protected your PC", with the More info link highlighted'
+    : 'Illustration of the expanded Windows SmartScreen warning showing App: SGH-Setup.exe and Publisher: Unknown publisher, with the Run anyway button highlighted';
+---
+
+<div class="ss" role="img" aria-label={label}>
+  <span class="ss-x" aria-hidden="true">&#x2715;</span>
+  <div class="ss-title">Windows protected your PC</div>
+  <p class="ss-text">Microsoft Defender SmartScreen prevented an unrecognized app from starting. Running this app might put your PC at risk.</p>
+  {state === 'more-info' && <span class="ss-more ss-hl">More info</span>}
+  {state === 'run-anyway' && (
+    <div class="ss-meta">
+      <div><span class="ss-key">App:</span> SGH-Setup.exe</div>
+      <div><span class="ss-key">Publisher:</span> Unknown publisher</div>
+    </div>
+  )}
+  <div class="ss-btns">
+    {state === 'run-anyway' && <span class="ss-btn ss-hl">Run anyway</span>}
+    <span class="ss-btn">Don't run</span>
+  </div>
+</div>
+
+<style>
+  .ss {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 18px;
+    background: #0067b8;
+    color: #fff;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 12px;
+    text-align: left;
+  }
+  .ss-x {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+  .ss-title {
+    margin: 10px 0 12px;
+    font-size: 21px;
+    font-weight: 300;
+    line-height: 1.25;
+  }
+  .ss-text {
+    line-height: 1.45;
+  }
+  .ss-more {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: underline;
+  }
+  .ss-meta {
+    margin-top: 14px;
+    line-height: 1.6;
+  }
+  .ss-key {
+    display: inline-block;
+    min-width: 66px;
+  }
+  .ss-btns {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 26px;
+  }
+  .ss-btn {
+    padding: 4px 18px;
+    border: 2px solid rgb(255 255 255 / 0.55);
+    background: rgb(255 255 255 / 0.12);
+  }
+  .ss-hl {
+    outline: 3px solid #fbbf24;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+</style>
