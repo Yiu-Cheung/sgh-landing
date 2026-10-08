@@ -18,7 +18,7 @@ Smart Gallery Hub is a **local-first desktop application**. Your images, videos,
 
 SGH contacts our servers only for the following:
 
-- **Update check.** Each time SGH starts, it downloads a small file from `dl.smartgalleryhub.com` to see whether a new version is available. To count roughly how many copies are in use, our server keeps a salted, one-way hash of the requesting IP address — never the address itself — and nothing else about you.
+- **Update check.** Each time SGH starts, it downloads a small file from `dl.smartgalleryhub.com` to see whether a new version is available. We count these downloads to see roughly how many copies of SGH are in use.
 - **License.** When you activate Smart Gallery Hub Pro, your email address and license key are sent to our license service, which checks them with Polar. Paid licenses are re-checked from time to time.
 - **Remote access (optional).** When you use remote access, SGH looks up your public IP address through `smartgalleryhub.com` (or `api.ipify.org` as a backup). If you claim a free DDNS name, SGH sends your public IP address to our DDNS service about once an hour, so that the name keeps pointing to your computer.
 
@@ -47,7 +47,7 @@ If you email us at support@smartgalleryhub.com, we receive your email address an
 
 - **Purchase data** (name, email): to deliver your license key and provide support.
 - **License checks** (email, license key): to confirm that your Pro license is valid.
-- **Update-check counts** (salted IP hash): to know roughly how many copies of SGH are in use.
+- **Update-check counts**: to know roughly how many copies of SGH are in use.
 - **DDNS** (public IP address, only if you claim a DDNS name): to keep your remote address working.
 - **Support emails**: to respond to your questions.
 - **Anonymous web analytics** (if enabled): to understand which pages visitors view.
