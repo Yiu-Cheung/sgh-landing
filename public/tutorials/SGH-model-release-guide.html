@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model releases in SGH: Adobe Stock, Shutterstock and Getty | Smart Gallery Hub tutorial</title>
+<meta name="description" content="How to attach model releases in Smart Gallery Hub: where each agency keeps your releases, how to set up models and releases for Getty in Release Manage, and how to pick them on each file.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<style>
+  .topbar { background: #fff; border-bottom: 1px solid #dde2e8; }
+  .topbar div { max-width: 1080px; margin: 0 auto; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+  .topbar a { color: #1d232b; text-decoration: none; }
+  .topbar a.tb-home { font-weight: 700; font-size: 17px; }
+  .topbar a:hover { text-decoration: underline; }
+  :root {
+    --ink: #1d232b;
+    --muted: #5b6573;
+    --line: #dde2e8;
+    --bg: #f5f6f8;
+    --green: #1f8a4c;
+    --green-bg: #eaf6ee;
+    --red: #c62828;
+    --red-bg: #fdeeee;
+    --orange: #d9640f;
+    --orange-bg: #fff3e8;
+    --blue: #3346a8;
+    --blue-bg: #eceffd;
+    --grey: #4b5563;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  main { max-width: 1080px; margin: 0 auto; padding: 32px 20px 56px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 28px; }
+  section.block {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin: 0 0 24px;
+  }
+  section.block > h2 { font-size: 19px; margin: 0 0 4px; }
+  section.block > h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    font-size: 14px;
+    vertical-align: 2px;
+  }
+  section.block > p.lead { margin: 0 0 18px; color: var(--muted); }
+  small, .small { font-size: 13px; color: var(--muted); }
+
+  /* ── 1. one release, three homes ── */
+  .doc {
+    width: 300px;
+    margin: 0 auto;
+    background: #fff;
+    border: 2px solid var(--ink);
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: center;
+    position: relative;
+  }
+  .doc .icon { font-size: 26px; line-height: 1; }
+  .doc b { display: block; margin-top: 4px; }
+  .fan { position: relative; height: 46px; }
+  .fan::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    height: 22px;
+    border-left: 2px solid var(--ink);
+  }
+  .fan::after {
+    content: "";
+    position: absolute;
+    left: 16.66%;
+    right: 16.66%;
+    top: 22px;
+    height: 24px;
+    border: 2px solid var(--ink);
+    border-bottom: none;
+  }
+  .homes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .home {
+    border: 2px solid var(--blue);
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: var(--blue-bg);
+  }
+  .home h3 { margin: 0 0 6px; font-size: 16px; }
+  .home .where { font-weight: 700; color: var(--blue); margin: 0 0 6px; }
+  .home p { margin: 0; font-size: 14px; }
+  .home.getty { border-color: var(--green); background: var(--green-bg); }
+  .home.getty .where { color: var(--green); }
+  .merge { text-align: center; margin: 14px 0 0; font-weight: 700; }
+  .merge span {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+  }
+
+  /* ── 2. Release Manage tree ── */
+  .tree { display: grid; grid-template-columns: 300px 60px 1fr; align-items: center; }
+  .profile {
+    border: 2px solid var(--green);
+    border-radius: 12px;
+    padding: 14px;
+    background: #fff;
+  }
+  .profile .tag, .rel .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    padding: 1px 7px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+  }
+  .profile .tag { background: var(--green-bg); color: var(--green); }
+  .profile b.name { display: block; font-size: 18px; }
+  .profile ul { margin: 8px 0 0; padding-left: 18px; font-size: 13.5px; }
+  .profile ul li { margin: 2px 0; }
+  .branch { align-self: stretch; position: relative; }
+  .branch::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 50%;
+    top: 50%;
+    border-top: 2px solid var(--green);
+  }
+  .branch::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 18%;
+    bottom: 18%;
+    border-left: 2px solid var(--green);
+  }
+  .rels { display: flex; flex-direction: column; gap: 10px; }
+  .rel {
+    position: relative;
+    border: 1.5px solid var(--line);
+    border-left: 4px solid var(--green);
+    border-radius: 10px;
+    padding: 9px 12px;
+    background: #fff;
+    font-size: 14px;
+  }
+  .rel::before {
+    content: "";
+    position: absolute;
+    left: -32px;
+    width: 28px;
+    top: 50%;
+    border-top: 2px solid var(--green);
+  }
+  .rel .tag { background: var(--blue-bg); color: var(--blue); }
+  .rel b { display: block; }
+  .rel.add { border-style: dashed; border-left-style: solid; color: var(--green); font-weight: 700; }
+  .rel.add .tag { display: none; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+  .stepcard {
+    border-radius: 10px;
+    background: var(--bg);
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+  .stepcard .n {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--green);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 6px;
+  }
+  .stepcard b { font-size: 15px; }
+  .stepcard p { margin: 6px 0 0; }
+
+  /* ── 3. panel mock ── */
+  .panelwrap { display: grid; grid-template-columns: 1.15fr 1fr; gap: 22px; align-items: start; }
+  .panel {
+    border: 1px solid #cfd5dd;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(20, 30, 50, .08);
+    overflow: hidden;
+  }
+  .panel .tabs { display: flex; gap: 2px; background: #eef1f5; padding: 6px 8px 0; font-size: 13px; }
+  .panel .tabs span { padding: 6px 12px; border-radius: 6px 6px 0 0; color: var(--muted); }
+  .panel .tabs span.on { background: #fff; color: var(--ink); font-weight: 700; }
+  .panel .body { padding: 14px 16px 16px; }
+  .chk { display: flex; align-items: center; gap: 8px; font-weight: 700; margin-bottom: 12px; }
+  .chk i {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background: var(--blue);
+    color: #fff;
+    font-style: normal;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .prow { margin: 0 0 12px; }
+  .prow .lbl { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--blue); margin-bottom: 4px; }
+  .prow .lbl .rf { color: var(--muted); font-size: 14px; }
+  .prow .lbl em { font-style: normal; color: var(--muted); font-weight: 400; }
+  .field {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    min-height: 36px;
+    border: 1px solid #cfd5dd;
+    border-radius: 7px;
+    padding: 5px 8px;
+    font-size: 13px;
+  }
+  .chip { background: var(--blue-bg); color: var(--blue); border-radius: 999px; padding: 2px 10px; font-weight: 600; }
+  .chip.missing { background: var(--red-bg); color: var(--red); }
+  .field .ph { color: #9aa3ae; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    flex: 0 0 auto;
+  }
+  .notes { display: flex; flex-direction: column; gap: 12px; }
+  .note { display: flex; gap: 10px; font-size: 14px; }
+  .note b { display: block; }
+  .note p { margin: 2px 0 0; color: var(--muted); font-size: 13.5px; }
+
+  /* ── 4. when attached ── */
+  .att { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14.5px; }
+  .att th, .att td { padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--line); }
+  .att th { font-size: 13px; color: var(--muted); font-weight: 600; }
+  .att td:first-child { font-weight: 700; width: 22%; }
+  .att tr:last-child td { border-bottom: none; }
+  .yes { color: var(--green); font-weight: 700; }
+  .no { color: var(--orange); font-weight: 700; }
+  .att .what { color: var(--muted); font-size: 13.5px; }
+  .fail {
+    margin-top: 16px;
+    border-left: 4px solid var(--red);
+    background: var(--red-bg);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  .fail b { color: var(--red); }
+
+  /* ── 5. troubleshooting ── */
+  .faq { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .q { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .q b { display: block; margin-bottom: 4px; }
+  .q p { margin: 0; font-size: 14px; color: var(--muted); }
+
+  @media (max-width: 860px) {
+    .homes, .steps, .panelwrap, .faq, .tree { grid-template-columns: 1fr; }
+    .fan, .branch, .rel::before { display: none; }
+    .doc { width: 100%; margin-bottom: 12px; }
+  }
+  @media print {
+    body { background: #fff; }
+    section.block { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<nav class="topbar"><div><a class="tb-home" href="/">Smart Gallery Hub</a><a href="/tutorials/">&larr; All tutorials</a></div></nav>
+<main>
+
+<h1>Model releases in SGH</h1>
+<p class="sub">How to attach a model release to your files for Adobe Stock, Shutterstock and Getty / iStock.</p>
+
+<!-- 1 -->
+<section class="block">
+  <h2><span class="num">1</span>The key idea: each agency keeps its own copy</h2>
+  <p class="lead">The same signed release has to be available to each agency. Adobe and Shutterstock keep a library of your releases on their websites. Getty does not, so SGH keeps the document for Getty.</p>
+
+  <div class="doc"><div class="icon">📄</div><b>A signed model release</b><small>for example: Pilar, beach shoot</small></div>
+  <div class="fan"></div>
+  <div class="homes">
+    <div class="home">
+      <h3>Adobe Stock</h3>
+      <p class="where">Upload it to Adobe once</p>
+      <p>On the Adobe Stock contributor website. SGH then lists the releases you have there.</p>
+    </div>
+    <div class="home">
+      <h3>Shutterstock</h3>
+      <p class="where">Upload it to Shutterstock once</p>
+      <p>On the Shutterstock contributor website. SGH then lists your active model releases there.</p>
+    </div>
+    <div class="home getty">
+      <h3>Getty / iStock</h3>
+      <p class="where">Import it into SGH once</p>
+      <p>In SGH's <b>Release Manage</b> tab. SGH keeps the document and sends it to Getty with every upload.</p>
+    </div>
+  </div>
+  <p class="merge"><span>Then, on each file, pick the release for each agency ↓</span></p>
+</section>
+
+<!-- 2 -->
+<section class="block">
+  <h2><span class="num">2</span>For Getty: one profile per person, one release per shoot</h2>
+  <p class="lead">In the <b>Release Manage</b> tab you create each person once. Every time they sign a release for a new shoot, you add it to their profile.</p>
+
+  <div class="tree">
+    <div class="profile">
+      <span class="tag">Model profile · created once</span>
+      <b class="name">Pilar</b>
+      <ul>
+        <li><b>Full legal name</b> and <b>date of birth</b> (required)</li>
+        <li>Sex / gender identity, race / ethnicity</li>
+        <li>Guardian details, if the model is under age</li>
+      </ul>
+    </div>
+    <div class="branch"></div>
+    <div class="rels">
+      <div class="rel"><span class="tag">Signed release</span><b>Beach shoot</b><small>Shoot date 2026-05-12 · Spain</small></div>
+      <div class="rel"><span class="tag">Signed release</span><b>Studio session</b><small>Shoot date 2026-08-03 · Spain</small></div>
+      <div class="rel add">+ Import existing release</div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="stepcard"><span class="n">1</span><b>Add the model</b><p>Release Manage → <b>+ Add model</b>. Fill in at least the full legal name and date of birth. The model then shows as <b>Ready</b>.</p></div>
+    <div class="stepcard"><span class="n">2</span><b>Import the signed release</b><p><b>Import existing release</b>: choose the document (PDF, JPG or PNG, up to 7 MB), and add a purpose and the shoot date.</p></div>
+    <div class="stepcard"><span class="n">3</span><b>Say which kind it is</b><p>Answer whether it is <b>Getty's enhanced release</b> or a standard release. Repeat step 2 for every new shoot.</p></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="block">
+  <h2><span class="num">3</span>On each file: tick, then pick</h2>
+  <p class="lead">Select the file, open the <b>metadata</b> tab, and find the model release section.</p>
+
+  <div class="panelwrap">
+    <div class="panel">
+      <div class="tabs"><span>Operate</span><span class="on">metadata</span><span>Details</span><span>MS-Report</span></div>
+      <div class="body">
+        <div class="chk"><span class="badge">1</span><i>✓</i>Attach Model Release:</div>
+        <div class="prow">
+          <div class="lbl"><span class="badge">4</span><span class="rf">⟳</span>Manage Adobe release</div>
+          <div class="field"><span class="badge">2</span><span class="chip">Pilar – beach ✕</span><span class="ph">Type or pick a title</span></div>
+        </div>
+        <div class="prow">
+          <div class="lbl"><span class="rf">⟳</span>Manage Shutter release</div>
+          <div class="field"><span class="chip">Pilar – beach ✕</span></div>
+        </div>
+        <div class="prow">
+          <div class="lbl"><span class="rf">⟳</span>Manage release <em>(Getty)</em></div>
+          <div class="field"><span class="chip">Pilar · Beach shoot ✕</span><span class="chip">Marc · Beach shoot ✕</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes">
+      <div class="note"><span class="badge">1</span><div><b>Tick "Attach Model Release"</b><p>The release lists only load once it is ticked. The first load can take up to a minute, while the ⟳ icon spins. Untick it and SGH sends no release, but keeps your picks.</p></div></div>
+      <div class="note"><span class="badge">2</span><div><b>Pick a release in every agency row</b><p>Pick one release for each person in the shot. With two people, pick both, as in the Getty row. On Adobe you can also type a title, which must match the title on Adobe exactly.</p></div></div>
+      <div class="note"><span class="badge">3</span><div><b>Several files at once</b><p>Select the files and edit them together. Your choice replaces the releases on all of them.</p></div></div>
+      <div class="note"><span class="badge">4</span><div><b>⟳ reloads a list</b><p>For example, after you upload a new release to Adobe or Shutterstock.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="block">
+  <h2><span class="num">4</span>When the release is attached</h2>
+  <p class="lead">It depends on the agency and on <b>Settings → Submission → Auto Submit</b>.</p>
+  <table class="att">
+    <thead><tr><th>Agency</th><th>Auto Submit ON</th><th>Auto Submit OFF</th><th></th></tr></thead>
+    <tbody>
+      <tr><td>Adobe Stock</td><td class="yes">✔ Attached</td><td class="yes">✔ Attached</td><td class="what">SGH attaches it while uploading the file.</td></tr>
+      <tr><td>Getty / iStock</td><td class="yes">✔ Attached</td><td class="yes">✔ Attached</td><td class="what">SGH uploads the document and attaches it while uploading the file.</td></tr>
+      <tr><td>Shutterstock</td><td class="yes">✔ Attached</td><td class="no">✖ You attach it</td><td class="what">With Auto Submit OFF, attach the release on Shutterstock yourself before you submit.</td></tr>
+    </tbody>
+  </table>
+  <div class="fail"><b>If a release cannot be attached,</b> SGH holds that file back: it is deleted from the agency's website and marked as failed in SGH, with the reason. Fix the release, then send the file again.</div>
+</section>
+
+<!-- 5 -->
+<section class="block">
+  <h2><span class="num">5</span>If something looks wrong</h2>
+  <p class="lead">Most problems come from the list not having loaded yet, or the release not being on the agency's website.</p>
+  <div class="faq">
+    <div class="q"><b>The Adobe or Shutterstock list is empty</b><p>Wait for it to load, then press ⟳. SGH only lists releases already on the agency's website. Adobe leaves out releases that are Hidden or Rejected. Shutterstock lists only active model releases.</p></div>
+    <div class="q"><b>Shutterstock says "Session expired"</b><p>Log in to Shutterstock again (Settings → Credentials → Test login session), then press ⟳.</p></div>
+    <div class="q"><b>A red "Missing: …" chip</b><p>That release is no longer on the agency's list, for example because it was deleted or hidden there. Remove the chip and pick another release.</p></div>
+    <div class="q"><b>A Getty release is greyed out</b><p>The reason is shown next to it. Usually the model profile in Release Manage needs more details.</p></div>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
