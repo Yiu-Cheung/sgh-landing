@@ -1,0 +1,28 @@
+---
+// Layout for the legal MDX pages (terms, privacy). MDX hands its frontmatter to
+// the layout as `frontmatter`, so the page title and description are passed on
+// to BaseLayout here; without this both pages showed the home page's title.
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  frontmatter: { title?: string; description?: string };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+  <article
+    class="max-w-3xl mx-auto px-4 pt-14 pb-20 text-sm text-gray-700 leading-relaxed
+           [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-gray-900 [&_h1]:mb-2
+           [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-gray-900 [&_h2]:mt-8 [&_h2]:mb-2
+           [&_h3]:text-sm [&_h3]:font-semibold [&_h3]:text-gray-900 [&_h3]:mt-5 [&_h3]:mb-1
+           [&_p]:mt-2
+           [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mt-2 [&_ul]:space-y-1
+           [&_a]:text-brand-600 [&_a]:underline [&_a]:hover:text-brand-700
+           [&_strong]:text-gray-900
+           [&_code]:bg-gray-100 [&_code]:px-1 [&_code]:rounded [&_code]:text-xs"
+  >
+    <slot />
+  </article>
+</BaseLayout>
