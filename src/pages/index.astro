@@ -8,6 +8,11 @@ import agentsStatusImage from '../assets/features/agents-status.png';
 import mobileViewImage from '../assets/features/mobile-view.png';
 import mobileViewImportImage from '../assets/features/mobile-view-import.png';
 import mobileViewOperationImage from '../assets/features/mobile-view-operation.png';
+import { OFFER, isOfferActive } from '../scripts/offer';
+
+// Rendered state at build time; the inline script in the pricing section
+// switches back to the regular prices in the browser once the offer has ended.
+const offerOn = isOfferActive();
 
 // TODO(polar-checkout-url): Polar product checkout URLs. Update if the Polar variant IDs change.
 const POLAR_ANNUAL = 'https://buy.polar.sh/polar_cl_F7zNynx5wcSfUm96w3eklh2cXR10EYJPdIGMB0rJnYg';
@@ -603,7 +608,10 @@ const faqLd = {
                 Yearly cost
                 <div class="text-[10px] font-normal text-gray-500 mt-0.5">~1,000 images / month<sup>11</sup></div>
               </td>
-              <td class="py-4 px-2 text-center bg-brand-50 text-brand-700 font-bold whitespace-nowrap">$59.99</td>
+              <td class="py-4 px-2 text-center bg-brand-50 text-brand-700 font-bold whitespace-nowrap">
+                <div data-offer="on" hidden={!offerOn}>${OFFER.annual.offer}<div class="text-[10px] font-normal">first year</div></div>
+                <div data-offer="off" hidden={offerOn}>${OFFER.annual.regular}</div>
+              </td>
               <td class="py-4 px-2 text-center text-gray-700">~$77<sup class="text-[10px]">12</sup></td>
               <td class="py-4 px-2 text-center text-gray-700">~$120<sup class="text-[10px]">13</sup></td>
               <td class="py-4 px-2 text-center text-gray-700">~$480</td>
@@ -613,7 +621,10 @@ const faqLd = {
             </tr>
             <tr class="border-t border-gray-200 bg-gray-50 text-xs">
               <td class="py-4 px-4 font-semibold text-gray-900 sticky left-0 bg-gray-50 z-10">Lifetime</td>
-              <td class="py-4 px-2 text-center bg-brand-50 text-brand-700 font-bold whitespace-nowrap">$199</td>
+              <td class="py-4 px-2 text-center bg-brand-50 text-brand-700 font-bold whitespace-nowrap">
+                <div data-offer="on" hidden={!offerOn}>${OFFER.lifetime.offer}</div>
+                <div data-offer="off" hidden={offerOn}>${OFFER.lifetime.regular}</div>
+              </td>
               <td class="py-4 px-2 text-center text-gray-400">&mdash;</td>
               <td class="py-4 px-2 text-center text-gray-400">&mdash;</td>
               <td class="py-4 px-2 text-center text-gray-400">&mdash;</td>
@@ -723,8 +734,19 @@ const faqLd = {
             Most popular
           </div>
           <h3 class="text-lg font-semibold text-gray-900">Pro Annual</h3>
-          <p class="mt-2 text-4xl font-bold text-gray-900">$59.99</p>
-          <p class="mt-1 text-sm text-gray-500">per year &middot; ~$5.00/month</p>
+          <div data-offer="on" hidden={!offerOn}>
+            <p class="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span class="text-4xl font-bold text-gray-900">${OFFER.annual.offer}</span>
+              <span class="text-lg text-gray-400 line-through">${OFFER.annual.regular}</span>
+              <span class="text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">Save 60%</span>
+            </p>
+            <p class="mt-1 text-sm text-gray-500">first year &middot; then ${OFFER.annual.regular}/year</p>
+            <p class="mt-1 text-xs font-semibold text-red-600">Limited-time offer &middot; ends {OFFER.endsLabel}</p>
+          </div>
+          <div data-offer="off" hidden={offerOn}>
+            <p class="mt-2 text-4xl font-bold text-gray-900">${OFFER.annual.regular}</p>
+            <p class="mt-1 text-sm text-gray-500">per year &middot; ~$5.00/month</p>
+          </div>
           <ul class="mt-6 space-y-2 text-sm text-gray-700 flex-1">
             <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Everything in Free, plus:</li>
             <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Auto-submit to Adobe / Shutter / Getty</li>
@@ -748,13 +770,25 @@ const faqLd = {
             Best value
           </div>
           <h3 class="text-lg font-semibold text-gray-900">Pro Lifetime</h3>
-          <p class="mt-2 text-4xl font-bold text-gray-900">$199.99</p>
-          <p class="mt-1 text-sm text-gray-500">one-time payment &middot; forever</p>
+          <div data-offer="on" hidden={!offerOn}>
+            <p class="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span class="text-4xl font-bold text-gray-900">${OFFER.lifetime.offer}</span>
+              <span class="text-lg text-gray-400 line-through">${OFFER.lifetime.regular}</span>
+              <span class="text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">Save 50%</span>
+            </p>
+            <p class="mt-1 text-sm text-gray-500">one-time payment &middot; forever</p>
+            <p class="mt-1 text-xs font-semibold text-red-600">Limited-time offer &middot; ends {OFFER.endsLabel}</p>
+          </div>
+          <div data-offer="off" hidden={offerOn}>
+            <p class="mt-2 text-4xl font-bold text-gray-900">${OFFER.lifetime.regular}</p>
+            <p class="mt-1 text-sm text-gray-500">one-time payment &middot; forever</p>
+          </div>
           <ul class="mt-6 space-y-2 text-sm text-gray-700 flex-1">
             <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Every Pro feature &mdash; forever</li>
             <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> No yearly renewal</li>
             <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> 5 device activation</li>
-            <li class="flex items-start gap-2 text-gray-500"><span class="text-gray-400 mt-0.5">&#x2022;</span> Pay once &mdash; save vs Annual after ~3.3 years</li>
+            <li data-offer="on" hidden={!offerOn} class="text-gray-500"><span class="text-gray-400">&#x2022;</span> Pay once &mdash; costs less than Annual from year 3</li>
+            <li data-offer="off" hidden={offerOn} class="text-gray-500"><span class="text-gray-400">&#x2022;</span> Pay once &mdash; save vs Annual after ~3.3 years</li>
           </ul>
           <a
             href={POLAR_LIFETIME}
@@ -765,6 +799,15 @@ const faqLd = {
         </div>
       </div>
     </div>
+    <script is:inline define:vars={{ offerEndsAt: OFFER.endsAt }}>
+      // The page is static: once the offer ends, show the regular prices even
+      // if the site has not been rebuilt since. Polar stops applying the
+      // discount at the same instant.
+      if (Date.now() >= Date.parse(offerEndsAt)) {
+        document.querySelectorAll('[data-offer="on"]').forEach((el) => { el.hidden = true; });
+        document.querySelectorAll('[data-offer="off"]').forEach((el) => { el.hidden = false; });
+      }
+    </script>
   </section>
 
   <!-- FAQ -->

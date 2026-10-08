@@ -5,6 +5,12 @@ import '@fontsource/inter/700.css';
 import '../styles/global.css';
 import { Image } from 'astro:assets';
 import logoImage from '../assets/logo.png';
+import { OFFER, isOfferActive } from '../scripts/offer';
+
+// Structured-data prices follow the limited-time offer while it runs; a build
+// after the end date goes back to the regular prices.
+const offerOn = isOfferActive();
+const offerValidUntil = offerOn ? { priceValidUntil: OFFER.endsAt.slice(0, 10) } : {};
 
 interface Props {
   title?: string;
@@ -47,7 +53,8 @@ const softwareApplicationLd = {
     {
       '@type': 'Offer',
       name: 'Pro Annual',
-      price: '59.99',
+      price: offerOn ? OFFER.annual.offer : OFFER.annual.regular,
+      ...offerValidUntil,
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       category: 'Pro annual subscription — adds automated submission, approval tracking, earnings dashboard, 5 devices',
@@ -55,7 +62,8 @@ const softwareApplicationLd = {
     {
       '@type': 'Offer',
       name: 'Pro Lifetime',
-      price: '199.99',
+      price: offerOn ? OFFER.lifetime.offer : OFFER.lifetime.regular,
+      ...offerValidUntil,
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       category: 'Pro lifetime — one-time payment, all Pro features forever, 5 devices',
