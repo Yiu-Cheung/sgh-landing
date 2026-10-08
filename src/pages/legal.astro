@@ -1,0 +1,28 @@
+---
+// Terms of Service and Privacy Policy on one page. The old /terms and /privacy
+// URLs redirect here (public/_redirects) to #terms and #privacy.
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { Content as Terms } from '../legal/terms.mdx';
+import { Content as Privacy } from '../legal/privacy.mdx';
+---
+
+<LegalLayout
+  title="Terms of Service & Privacy Policy — Smart Gallery Hub"
+  description="Terms of Service, license terms and Privacy Policy for the Smart Gallery Hub desktop application and website."
+>
+  <p class="!mt-0 mb-10 flex gap-3 text-sm">
+    <a href="#terms">Terms of Service</a>
+    <span class="text-gray-300">|</span>
+    <a href="#privacy">Privacy Policy</a>
+  </p>
+
+  <section id="terms" class="scroll-mt-24">
+    <Terms />
+  </section>
+
+  <hr class="my-14 border-gray-200" />
+
+  <section id="privacy" class="scroll-mt-24">
+    <Privacy />
+  </section>
+</LegalLayout>

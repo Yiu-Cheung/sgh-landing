@@ -1,17 +1,17 @@
 ---
-// Layout for the legal MDX pages (terms, privacy). MDX hands its frontmatter to
-// the layout as `frontmatter`, so the page title and description are passed on
-// to BaseLayout here; without this both pages showed the home page's title.
+// Small-print layout for the legal page (src/pages/legal.astro), which holds
+// the Terms of Service and the Privacy Policy on one page.
 import BaseLayout from './BaseLayout.astro';
 
 interface Props {
-  frontmatter: { title?: string; description?: string };
+  title: string;
+  description: string;
 }
 
-const { frontmatter } = Astro.props;
+const { title, description } = Astro.props;
 ---
 
-<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+<BaseLayout title={title} description={description}>
   <article
     class="max-w-3xl mx-auto px-4 pt-14 pb-20 text-sm text-gray-700 leading-relaxed
            [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-gray-900 [&_h1]:mb-2
