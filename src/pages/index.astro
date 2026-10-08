@@ -32,7 +32,7 @@ const faq = [
   },
   {
     q: 'What about my agency passwords — do you store them?',
-    a: 'No. Smart Gallery Hub runs entirely on your machine. Agency credentials live in a local browser profile on your disk so the automated portal sessions can log in. Nothing leaves your computer — we have no server that sees your credentials, your images, your metadata, or your earnings.',
+    a: 'No. Agency credentials live in a local browser profile on your disk so the automated portal sessions can log in, and they go straight from your computer to each agency. Your credentials, images, metadata and earnings never reach our servers. SGH only contacts us to check for updates, to validate a Pro license, and — if you turn it on — for remote access. The Privacy Policy lists exactly what is sent.',
   },
   {
     q: 'Which platforms does Smart Gallery Hub run on?',
@@ -193,8 +193,8 @@ const faqLd = {
 
         <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xl mb-4">&#x1F501;</div>
-          <h3 class="font-semibold text-gray-900">Submission queue + resume</h3>
-          <p class="mt-2 text-sm text-gray-600">Sends submissions one agency at a time, retries when something fails, and picks up where it left off after a crash. Drop a thousand files in. Walk away.</p>
+          <h3 class="font-semibold text-gray-900">Submission queue + safe restart</h3>
+          <p class="mt-2 text-sm text-gray-600">Sends submissions one agency at a time and retries when something fails. If SGH ever closes mid-run, choose Discard and send again — files already submitted are skipped. Drop a thousand files in. Walk away.</p>
         </div>
 
         <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
@@ -517,7 +517,7 @@ const faqLd = {
               <td class="py-3 px-2 text-center">&#x2705;</td>
             </tr>
             <tr class="border-b border-gray-100">
-              <td class="py-3 px-4 font-medium sticky left-0 bg-white z-10">Submission queue with auto-retry &amp; resume</td>
+              <td class="py-3 px-4 font-medium sticky left-0 bg-white z-10">Submission queue with auto-retry &amp; safe restart</td>
               <td class="py-3 px-2 text-center bg-brand-50/50 text-brand-700 font-bold">&#x2705;</td>
               <td class="py-3 px-2 text-center text-gray-400">&mdash;</td>
               <td class="py-3 px-2 text-center text-yellow-600">&#x26A0;</td>
@@ -682,7 +682,7 @@ const faqLd = {
         <p class="font-semibold text-gray-900">What Pro adds on top of Free</p>
         <ul class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
           <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Auto-submit to Adobe Stock, Shutterstock, Getty</li>
-          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Submission queue with auto-retry &amp; resume</li>
+          <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Submission queue with auto-retry &amp; safe restart</li>
           <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Approval / rejection tracking</li>
           <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> Unified earnings dashboard</li>
           <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5">&#x2713;</span> GPS editorial caption auto-fill</li>

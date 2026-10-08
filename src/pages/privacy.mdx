@@ -6,7 +6,7 @@ description: 'Privacy Policy for Smart Gallery Hub desktop application and websi
 
 # Privacy Policy
 
-**Effective date: April 12, 2026**
+**Effective date: October 8, 2026**
 
 Smart Gallery Hub ("SGH," "we," "our") respects your privacy. This policy explains what data we collect, how we use it, and your rights.
 
@@ -14,11 +14,18 @@ Smart Gallery Hub ("SGH," "we," "our") respects your privacy. This policy explai
 
 ### The desktop application
 
-Smart Gallery Hub is a **local-first desktop application**. Your images, videos, metadata, and AI-generated content stay on your computer. We do not upload, transmit, or store any of your files on our servers.
+Smart Gallery Hub is a **local-first desktop application**. Your images, videos, metadata, AI-generated content, agency logins and earnings data stay on your computer. We do not upload, transmit, or store any of your files on our servers. Your agency logins go directly from your computer to each agency's website and never pass through our servers.
 
-- **No telemetry.** SGH does not phone home.
+SGH contacts our servers only for the following:
+
+- **Update check.** Each time SGH starts, it downloads a small file from `dl.smartgalleryhub.com` to see whether a new version is available. To count roughly how many copies are in use, our server keeps a salted, one-way hash of the requesting IP address — never the address itself — and nothing else about you.
+- **License.** When you activate Smart Gallery Hub Pro, your email address and license key are sent to our license service, which checks them with Polar. Paid licenses are re-checked from time to time.
+- **Remote access (optional).** When you use remote access, SGH looks up your public IP address through `smartgalleryhub.com` (or `api.ipify.org` as a backup). If you claim a free DDNS name, SGH sends your public IP address to our DDNS service about once an hour, so that the name keeps pointing to your computer.
+
+Also:
+
 - **No cloud storage.** All data is stored in a local SQLite database on your machine.
-- **AI processing is local.** When using Ollama, inference runs entirely on your hardware. If you choose to connect an external AI provider (e.g., OpenAI-compatible API), your data is sent to that provider under their privacy policy — not ours.
+- **AI.** Local AI (Ollama or llama.cpp) runs entirely on your hardware. If you choose a cloud AI provider (for example OpenAI, Google Gemini or Anthropic), the content you process is sent to that provider under their privacy policy — not ours.
 
 ### The website (smartgalleryhub.com)
 
@@ -39,6 +46,9 @@ If you email us at support@smartgalleryhub.com, we receive your email address an
 ## How we use your data
 
 - **Purchase data** (name, email): to deliver your license key and provide support.
+- **License checks** (email, license key): to confirm that your Pro license is valid.
+- **Update-check counts** (salted IP hash): to know roughly how many copies of SGH are in use.
+- **DDNS** (public IP address, only if you claim a DDNS name): to keep your remote address working.
 - **Support emails**: to respond to your questions.
 - **Anonymous web analytics** (if enabled): to understand which pages visitors view.
 

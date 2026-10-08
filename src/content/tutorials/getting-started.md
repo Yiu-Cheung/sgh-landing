@@ -83,7 +83,7 @@ Edit the title/keywords if generic.
 
 ![Operate panel](/tutorials/getting-started/04-operate-panel.png)
 
-Smart Submit skips already-submitted files, skips files without metadata, retries failures, and resumes after interruptions.
+Smart Submit skips already-submitted files, skips files without metadata, and retries failures. If a run is interrupted, choose **Discard** when SGH asks about the unfinished job, then send again — files already submitted are skipped.
 
 You need agency credentials first → [Set up your agency credentials](/tutorials/credential-setup/).
 

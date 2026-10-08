@@ -43,7 +43,7 @@ Back in **Settings → Server**, look at the **Access URLs** block again:
 - On your home Wi-Fi — use the **LAN** URL.
 - From outside (mobile data, coffee shop, etc.) — use the **WAN** URL highlighted as `From your router (UPnP)`:
 
-![WAN URL block: From your router (UPnP), https://218.103.167.38:5173, Reachable from outside if port 5000 is forwarded on your router](/tutorials/remote-access/02-wan-ip.png)
+![WAN URL block: From your router (UPnP), showing your public address on port 5173, reachable from outside if the port is forwarded on your router](/tutorials/remote-access/02-wan-ip.png)
 
 For WAN access to work, the port (5173) must be forwarded on your router. SGH attempts UPnP automatically; if your router has UPnP disabled, you'll need to add the rule yourself.
 

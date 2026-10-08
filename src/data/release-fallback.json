@@ -10,7 +10,7 @@
     "Automated metadata generation via Ollama or OpenAI vision models",
     "One-click submission to Adobe Stock, Shutterstock, Getty Images",
     "Unified earnings dashboard with 12-month trend chart",
-    "Local-first architecture — no cloud, no telemetry",
+    "Local-first architecture — your files stay on your computer",
     "Windows 10+ and macOS 12+ (separate Apple Silicon and Intel DMGs)"
   ],
   "fullChangelog": "https://github.com/Yiu-Cheung/Microstock-AiTools-V3/releases/tag/v1.0.1"
