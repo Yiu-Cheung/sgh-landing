@@ -27,17 +27,7 @@ export interface UpdateJson {
 }
 
 /**
- * Highlight lines the site never shows, matched exactly. update.json is shared
- * with the app's update check, so a line the owner wants off the website is
- * dropped here instead of being edited out of a published release.
- */
-const HIDDEN_HIGHLIGHTS: ReadonlySet<string> = new Set([
-  "Add a limited-time Pro offer until December 31, 2026",
-]);
-
-/**
  * Strict validator. Returns the typed object on valid input, null otherwise.
- * Highlights listed in HIDDEN_HIGHLIGHTS are removed from the result.
  *
  * Fails closed on schemaVersion mismatch — see release-pipeline producer-trust
  * contract: schemaVersion only increments on breaking changes, so a v2 payload
@@ -65,7 +55,7 @@ export function validateUpdateJson(data: unknown): UpdateJson | null {
     version: d.version,
     releasedAt: d.releasedAt,
     platforms: { win: p.win, mac: p.mac },
-    highlights: (d.highlights as string[]).filter((line) => !HIDDEN_HIGHLIGHTS.has(line)),
+    highlights: d.highlights as string[],
     fullChangelog: d.fullChangelog,
   };
 }
