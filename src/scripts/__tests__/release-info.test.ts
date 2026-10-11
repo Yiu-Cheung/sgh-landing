@@ -46,6 +46,30 @@ describe("validateUpdateJson — happy path", () => {
   });
 });
 
+describe("validateUpdateJson — hidden highlights", () => {
+  const OFFER = "Add a limited-time Pro offer until December 31, 2026";
+
+  it("drops the limited-time offer line and keeps the others in order", () => {
+    const result = validateUpdateJson({
+      ...VALID_INPUT,
+      highlights: ["Add choosing the content type for just one upload", OFFER, "Fix Pond5 ignoring your Default Country when a file has none"],
+    });
+    expect(result?.highlights).toEqual([
+      "Add choosing the content type for just one upload",
+      "Fix Pond5 ignoring your Default Country when a file has none",
+    ]);
+  });
+
+  it("matches the line exactly, not by substring", () => {
+    const similar = `${OFFER} — ends soon`;
+    expect(validateUpdateJson({ ...VALID_INPUT, highlights: [similar] })?.highlights).toEqual([similar]);
+  });
+
+  it("a release whose only highlight is hidden renders as having none", () => {
+    expect(validateUpdateJson({ ...VALID_INPUT, highlights: [OFFER] })?.highlights).toEqual([]);
+  });
+});
+
 describe("validateUpdateJson — schemaVersion strictness (fail closed)", () => {
   it("rejects schemaVersion: 2 (unsupported per producer-trust contract)", () => {
     expect(validateUpdateJson({ ...VALID_INPUT, schemaVersion: 2 })).toBeNull();
